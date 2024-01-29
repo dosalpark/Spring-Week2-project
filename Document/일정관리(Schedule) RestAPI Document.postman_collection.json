@@ -1,0 +1,270 @@
+{
+	"info": {
+		"_postman_id": "b1eabaef-b507-41db-afd7-da5383315d42",
+		"name": "일정관리(Schedule) RestAPI Document",
+		"description": "<img src=\"https://content.pstmn.io/1004cc4a-ba6a-4882-81fb-e073583db613/QVBJIOygleumrC5wbmc=\" alt=\"\">",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "32382229"
+	},
+	"item": [
+		{
+			"name": "일정 등록하기",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"titleSchedule\": \"Last Test5\",\n    \"bodySchedule\" : \"Last Test insert schedule5\",\n    \"user\" : \"김승현\",\n    \"password\" : \"1324\"\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/schedule",
+				"description": "신규 일정 등록 API"
+			},
+			"response": []
+		},
+		{
+			"name": "담당자별 일정 조회하기",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/schedule/username?username=[user]",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"schedule",
+						"username"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "[user]",
+							"description": "조회 할 담당자 이름 입력 "
+						}
+					]
+				},
+				"description": "담당자별 일정 조회 API"
+			},
+			"response": []
+		},
+		{
+			"name": "전체 일정 조회하기",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/api/schedule",
+				"description": "전체 일정 조회 API\n\n|  |  |  |  |  |\n| --- | --- | --- | --- | --- |\n|  |  |  |  |  |"
+			},
+			"response": []
+		},
+		{
+			"name": "선택한 일정 조회하기",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/schedule/select?id=[id]",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"schedule",
+						"select"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "[id]",
+							"description": "조회 할 일정 번호 입력"
+						}
+					]
+				},
+				"description": "선택 일정 조회 API"
+			},
+			"response": []
+		},
+		{
+			"name": "선택한 일정 수정하기",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful PUT request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "id",
+						"value": "3",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "1",
+						"value": "3",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"titleSchedule\": \"test Last 3-3\",\n    \"bodySchedule\": \"test Last 3-3 body\",\n    \"user\": \"박승현\",\n    \"password\": \"1324\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/schedule?id=[id]",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"schedule"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "[id]",
+							"description": "수정 할 일정 번호 입력 "
+						}
+					]
+				},
+				"description": "선택 일정 수정 API"
+			},
+			"response": []
+		},
+		{
+			"name": "선택한 일정 삭제하기",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful DELETE request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 202, 204]);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"password\" : \"1324\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/schedule?id=[id]",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"schedule"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "[id]",
+							"description": "삭제 할 일정 번호 입력 "
+						}
+					]
+				},
+				"description": "선택 일정 삭제 API"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "id",
+			"value": "1"
+		},
+		{
+			"key": "base_url",
+			"value": "https://postman-rest-api-learner.glitch.me/"
+		}
+	]
+}

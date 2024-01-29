@@ -1,0 +1,158 @@
+─────────────────────────────────────────────────────────────────────────────────────────────
+[1주차 프로젝트 과제 구현내용]
+─────────────────────────────────────────────────────────────────────────────────────────────
+	[컬럼명]
+	번호:	id (PK)
+	할일제목:	titleSchedule 
+	할일내용:	bodySchedule
+	담당자:	user
+	비밀번호:	 pw
+	작성일:	createdAt
+	수정일:	modifyedAt
+	
+	[DTO]
+	requestDto:		titleSchedule, bodySchedule, user, pw
+	responseDTO:	id, titleSchedule, bodySchedule, user, createdAt, modifyedAt
+	
+	[공통특이사항]
+	리턴값에 패스워드 포함X
+	
+	[공통 경로]
+	localhost:8080/api
+	
+	[작업예상]
+	0. 패키지 클래스 생성
+	1. view			안함
+	2. controll		o
+	3. service		o
+	4. repository	o
+	5. DB셋팅		o
+	6. entity		o
+	
+	[착오]
+	1.	gredle 부터 JPA, Mysql 빌드했어야했음.
+	2.	에러발생 뭔가 메소드 쿼리가 문제가있어보임 일단 findAll()로 변경하고 commit 진행 테스트전단계
+	org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'scheduleController' defined in file [C:\Users\박하은\OneDrive\바탕 화면\javaSpring\week1Project\schedule\build\classes\java\main\org\example\schedule\controller\ScheduleController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'scheduleService' defined in file [C:\Users\박하은\OneDrive\바탕 화면\javaSpring\week1Project\schedule\build\classes\java\main\org\example\schedule\service\ScheduleService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'scheduleRepository' defined in org.example.schedule.repository.ScheduleRepository defined in @EnableJpaRepositories declared on JpaRepositoriesRegistrar.EnableJpaRepositoriesConfiguration: Could not create query for public abstract java.util.List org.example.schedule.repository.ScheduleRepository.findAllOrOrderByCreatedAt(); Reason: Failed to create query for method public abstract java.util.List org.example.schedule.repository.ScheduleRepository.findAllOrOrderByCreatedAt(); Method public abstract java.util.List org.example.schedule.repository.ScheduleRepository.findAllOrOrderByCreatedAt() expects at least 1 arguments but only found 0; This leaves an operator of type SIMPLE_PROPERTY for property createdAt unbound
+	3. 아직은 실력이 부족해서 Entity나 DB셋팅 안하고 하면 내가 짠 코드가 맞는지 확인 할 방법이 없다.
+	
+	[문의사항]
+	1. View까지 만들어야 하는건지 x
+	2.
+
+	[구분]
+	PathVariable : 	/키/값/키/값
+	RequestParam :	?키=값&키=값
+	RequestBody:	/ (URL에 노출X)
+─────────────────────────────────────────────────────────────────────────────────────────────
+
+- [1]  일정 작성 기능
+    - `할일 제목`,`할일 내용`, `담당자`, `비밀번호`, `작성일`을 저장할 수 있습니다.
+    - 저장된 게시글의 정보를 반환 받아 확인할 수 있습니다.
+	- 반환 받은 게시글의 정보에 `비밀번호`는 제외 되어있습니다.
+		
+1. 	@PostMapping
+
+	[특이사항]
+	작성한 일정 리턴
+	
+	[정보]
+	/schedule
+	createSchedule(@RequestBody requestDto)
+	
+─────────────────────────────────────────────────────────────────────────────────────────────
+
+- [2]  담당자명으로 일정 조회 기능
+    - 담당자명으로 검색 한 일정의 정보를 조회할 수 있습니다.
+	- 반환 받은 일정 정보에 `비밀번호`는 제외 되어있습니다.
+		
+2.	@GetMapping 사용
+
+	[특이사항]
+	선택한 일정 리턴
+	담당자 별로 조회
+	
+	[정보]
+	/schedule/select
+	getScheduleByUser(@RequestBody username)
+	
+	
+─────────────────────────────────────────────────────────────────────────────────────────────
+
+
+- [3]  일정 목록 조회 기능
+    - 등록된 일정 전체를 조회할 수 있습니다.
+	- 반환 받은 일정 정보에 `비밀번호`는 제외 되어있습니다.
+    - 조회된 일정 목록은 `작성일` 기준 내림차순으로 정렬 되어있습니다.
+
+3.	@Getmapping 사용
+
+	[특이사항]
+	전체 일정 리턴
+	리턴값은 작성일 기준 내림차순 정렬
+
+	[정보]
+	/schedule
+	getSchedule()
+	
+─────────────────────────────────────────────────────────────────────────────────────────────
+
+- [4]  선택한 일정 조회 기능
+    - 선택한 일정의 정보를 조회할 수 있습니다.
+	- 반환 받은 일정 정보에 `비밀번호`는 제외 되어있습니다.
+		
+4.	@GetMapping 사용
+
+	[특이사항]
+	선택한 일정 리턴
+	담당자 별로 조회
+	
+	[정보]
+	/schedule/select
+	getScheduleByUser(@RequestParam id)
+	
+	
+─────────────────────────────────────────────────────────────────────────────────────────────
+	
+- [5]  선택한 일정 수정 기능
+    - 선택한 일정의 `할일 제목`,`할일 내용`, `담당자`을 수정할 수 있습니다.
+	- 서버에 일정 수정을 요청할 때 `비밀번호`를 함께 전달합니다.
+	- 선택한 일정의 `비밀번호`와 요청할 때 함께 보낸 `비밀번호`가 일치할 경우에만 수정이 가능합니다.
+    - 수정된 일정의 정보를 반환 받아 확인할 수 있습니다.
+	- 반환 받은 일정의 정보에 `비밀번호`는 제외 되어있습니다.
+		
+5.	@PutMapping 사용
+
+	[특이사항]
+	수정된 일정 /패스워드 미일치 리턴
+	수정요청시 비밀번호를 함께 전달하며 일치할 경우에만 수정 가능
+	
+	[정보]
+	/schedule/{id}
+	updateSchedule(@RequestParam id, @RequestBody requestDto)
+
+─────────────────────────────────────────────────────────────────────────────────────────────
+	
+- [6]  선택한 일정 삭제 기능
+    - 선택한 일정을 삭제할 수 있습니다.
+	- 서버에 일정 삭제를 요청할 때 `비밀번호`를 함께 전달합니다.
+	- 선택한 일정의 `비밀번호`와 요청할 때 함께 보낸 `비밀번호`가 일치할 경우에만 삭제가 가능합니다.
+		
+6.	@DeleteMapping 사용
+	
+	[특이사항]
+	삭제완료 /패스워드 미일치 alert 리턴
+	수정요청시 비밀번호를 함께 전달하며 일치할 경우에만 수정 가능
+	
+	[정보]
+	/schedule/{id}
+	deleteSchedule(@RequestParam id)
+
+─────────────────────────────────────────────────────────────────────────────────────────────
+	
+
+
+
+	
+
+	
+	

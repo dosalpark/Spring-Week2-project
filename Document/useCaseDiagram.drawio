@@ -1,0 +1,193 @@
+<mxfile host="app.diagrams.net" modified="2024-01-23T05:45:27.942Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" etag="3I31CaG7gcvLc5I0m4oP" version="22.1.21" type="device">
+  <diagram name="페이지-1" id="a30x1F0wVH0TfGXleWDE">
+    <mxGraphModel dx="2234" dy="780" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="nVTmT-y1U-sntxcZQQoF-1" value="" style="rounded=0;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#bac8d3;strokeColor=#23445d;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" vertex="1">
+          <mxGeometry x="-117" y="38" width="353" height="747" as="geometry" />
+        </mxCell>
+        <mxCell id="Iv4k6GRNhZueNbacd676-9" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;fontSize=12;startSize=8;endSize=8;labelBackgroundColor=none;fontColor=default;strokeColor=#0B4D6A;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-5.5" y="37" as="sourcePoint" />
+            <mxPoint x="-5.5" y="37" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Iv4k6GRNhZueNbacd676-25" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;fontSize=12;startSize=8;endSize=8;labelBackgroundColor=none;fontColor=default;strokeColor=#0B4D6A;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="207" y="365" as="sourcePoint" />
+            <mxPoint x="207" y="365" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Iv4k6GRNhZueNbacd676-26" value="&lt;b&gt;일정관리 프로그램&lt;br&gt;(schedule)&lt;/b&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;fontSize=16;labelBackgroundColor=none;fillColor=#bac8d3;strokeColor=#23445d;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" vertex="1">
+          <mxGeometry x="-48" y="21" width="213" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="Iv4k6GRNhZueNbacd676-27" value="&lt;b&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;font color=&quot;#212121&quot;&gt;이용자&lt;/font&gt;&lt;/b&gt;" style="shape=actor;whiteSpace=wrap;html=1;fontSize=16;labelBackgroundColor=none;fillColor=#bac8d3;strokeColor=#23445d;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" vertex="1">
+          <mxGeometry x="-501" y="303" width="68" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="Iv4k6GRNhZueNbacd676-29" value="&lt;font style=&quot;font-size: 8px;&quot;&gt;[request→] 추가 할 일정 (할일 제목,할일 내용,담당자,비밀번호)&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=8;labelBackgroundColor=none;fontColor=#191919;fontStyle=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" vertex="1">
+          <mxGeometry x="-360" y="100" width="238" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="nVTmT-y1U-sntxcZQQoF-4" value="" style="edgeStyle=elbowEdgeStyle;elbow=horizontal;endArrow=classic;html=1;curved=0;rounded=0;endSize=8;startSize=8;entryX=0.263;entryY=0.124;entryDx=0;entryDy=0;entryPerimeter=0;labelBackgroundColor=none;strokeColor=#000000;fontColor=default;strokeWidth=2;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" target="nVTmT-y1U-sntxcZQQoF-1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-423" y="355" as="sourcePoint" />
+            <mxPoint x="-25" y="131" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="-380" y="255" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nVTmT-y1U-sntxcZQQoF-8" value="일정작성" style="rounded=0;whiteSpace=wrap;html=1;labelBackgroundColor=none;fontSize=16;fontFamily=Helvetica;horizontal=1;fontStyle=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" vertex="1">
+          <mxGeometry x="-7" y="105" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="nVTmT-y1U-sntxcZQQoF-9" value="담당자별 &lt;br&gt;일정 조회" style="rounded=0;whiteSpace=wrap;html=1;labelBackgroundColor=none;fontSize=16;fontFamily=Helvetica;horizontal=1;fontStyle=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" vertex="1">
+          <mxGeometry x="-7" y="217" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="nVTmT-y1U-sntxcZQQoF-10" value="&lt;span style=&quot;font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;전체 일정 조회&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;labelBackgroundColor=none;fontSize=16;fontFamily=Helvetica;horizontal=1;fontStyle=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" vertex="1">
+          <mxGeometry x="-7" y="341" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="nVTmT-y1U-sntxcZQQoF-11" value="선택 일정 조회" style="rounded=0;whiteSpace=wrap;html=1;labelBackgroundColor=none;fontSize=16;fontFamily=Helvetica;horizontal=1;fontStyle=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" vertex="1">
+          <mxGeometry x="-7" y="465" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="nVTmT-y1U-sntxcZQQoF-12" value="선택 일정 수정" style="rounded=0;whiteSpace=wrap;html=1;labelBackgroundColor=none;fontSize=16;fontFamily=Helvetica;horizontal=1;fontStyle=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" vertex="1">
+          <mxGeometry x="-7" y="584" width="120" height="61" as="geometry" />
+        </mxCell>
+        <mxCell id="nVTmT-y1U-sntxcZQQoF-13" value="" style="edgeStyle=elbowEdgeStyle;elbow=horizontal;endArrow=classic;html=1;curved=0;rounded=0;endSize=8;startSize=8;entryX=0.281;entryY=0.309;entryDx=0;entryDy=0;entryPerimeter=0;labelBackgroundColor=none;strokeColor=#000000;fontColor=default;strokeWidth=2;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-380" y="326" as="sourcePoint" />
+            <mxPoint x="-17.807000000000016" y="246.82299999999998" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="-380" y="352" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nVTmT-y1U-sntxcZQQoF-14" value="" style="edgeStyle=elbowEdgeStyle;elbow=horizontal;endArrow=classic;html=1;curved=0;rounded=0;endSize=8;startSize=8;entryX=0.283;entryY=0.488;entryDx=0;entryDy=0;entryPerimeter=0;labelBackgroundColor=none;strokeColor=#000000;fontColor=default;strokeWidth=2;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-380" y="314" as="sourcePoint" />
+            <mxPoint x="-17.101000000000113" y="369.53600000000006" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="-380" y="466" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nVTmT-y1U-sntxcZQQoF-15" value="" style="edgeStyle=elbowEdgeStyle;elbow=horizontal;endArrow=classic;html=1;curved=0;rounded=0;endSize=8;startSize=8;entryX=0.286;entryY=0.611;entryDx=0;entryDy=0;entryPerimeter=0;labelBackgroundColor=none;strokeColor=#000000;fontColor=default;strokeWidth=2;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" target="nVTmT-y1U-sntxcZQQoF-1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-380" y="305" as="sourcePoint" />
+            <mxPoint x="-21.690000000000055" y="494.24900000000014" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="-380" y="580" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nVTmT-y1U-sntxcZQQoF-16" value="" style="edgeStyle=elbowEdgeStyle;elbow=horizontal;endArrow=classic;html=1;curved=0;rounded=0;endSize=8;startSize=8;entryX=0.978;entryY=1.043;entryDx=0;entryDy=0;entryPerimeter=0;labelBackgroundColor=none;strokeColor=#000000;fontColor=default;strokeWidth=2;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-380" y="358" as="sourcePoint" />
+            <mxPoint x="-14.416000000000054" y="612.29" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="-380" y="737" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nVTmT-y1U-sntxcZQQoF-19" value="&lt;font style=&quot;font-size: 8px;&quot;&gt;[request→] 담당자명 입력&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=8;labelBackgroundColor=none;fontColor=#191919;fontStyle=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" vertex="1">
+          <mxGeometry x="-360" y="217" width="101" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="nVTmT-y1U-sntxcZQQoF-20" value="&lt;font style=&quot;font-size: 8px;&quot;&gt;[←response] 등록된 일정&amp;nbsp;&lt;/font&gt;&lt;font style=&quot;border-color: var(--border-color); font-size: 8px;&quot;&gt;(&lt;/font&gt;일정 번호, 할일 제목, 할일 내용, 담당자, 생성일, 수정일)" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=8;labelBackgroundColor=none;fontColor=#191919;fontStyle=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" vertex="1">
+          <mxGeometry x="-360" y="151" width="302.5" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="nVTmT-y1U-sntxcZQQoF-21" value="&lt;font style=&quot;font-size: 8px;&quot;&gt;[request→]&amp;nbsp;&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=8;labelBackgroundColor=none;fontColor=#191919;fontStyle=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" vertex="1">
+          <mxGeometry x="-360" y="351" width="52" height="17" as="geometry" />
+        </mxCell>
+        <mxCell id="nVTmT-y1U-sntxcZQQoF-22" value="&lt;font style=&quot;font-size: 8px;&quot;&gt;[request→]&amp;nbsp; 조회 할 일정 번호&amp;nbsp;&lt;br style=&quot;font-size: 8px;&quot;&gt;&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=8;labelBackgroundColor=none;fontColor=#191919;fontStyle=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" vertex="1">
+          <mxGeometry x="-360" y="476" width="120" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="nVTmT-y1U-sntxcZQQoF-23" value="&lt;font style=&quot;font-size: 8px;&quot;&gt;[request→] 수정 할 일정 및 내용 입력&lt;br style=&quot;font-size: 8px;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; (할일 제목, 할일 내용, 담당자)&lt;br style=&quot;font-size: 8px;&quot;&gt;&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=8;labelBackgroundColor=none;fontColor=#191919;fontStyle=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" vertex="1">
+          <mxGeometry x="-371" y="581" width="167" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="nVTmT-y1U-sntxcZQQoF-24" value="" style="edgeStyle=elbowEdgeStyle;elbow=horizontal;endArrow=classic;html=1;curved=0;rounded=0;endSize=8;startSize=8;exitX=0.264;exitY=0.161;exitDx=0;exitDy=0;exitPerimeter=0;labelBackgroundColor=none;strokeColor=#000000;fontColor=default;strokeWidth=2;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-23.807999999999993" y="150.267" as="sourcePoint" />
+            <mxPoint x="-422" y="368" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="-394" y="247" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nVTmT-y1U-sntxcZQQoF-28" value="" style="edgeStyle=elbowEdgeStyle;elbow=horizontal;endArrow=classic;html=1;curved=0;rounded=0;endSize=8;startSize=8;exitX=0.27;exitY=0.86;exitDx=0;exitDy=0;exitPerimeter=0;labelBackgroundColor=none;strokeColor=#000000;fontColor=default;strokeWidth=2;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-17.910000000000082" y="628.0999999999999" as="sourcePoint" />
+            <mxPoint x="-422" y="368" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="-394" y="414" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nVTmT-y1U-sntxcZQQoF-30" value="" style="edgeStyle=elbowEdgeStyle;elbow=horizontal;endArrow=classic;html=1;curved=0;rounded=0;endSize=8;startSize=8;exitX=0.27;exitY=0.86;exitDx=0;exitDy=0;exitPerimeter=0;labelBackgroundColor=none;strokeColor=#000000;fontColor=default;strokeWidth=2;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-17.910000000000082" y="511.0999999999999" as="sourcePoint" />
+            <mxPoint x="-422" y="368" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="-394" y="297" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nVTmT-y1U-sntxcZQQoF-31" value="" style="edgeStyle=elbowEdgeStyle;elbow=horizontal;endArrow=classic;html=1;curved=0;rounded=0;endSize=8;startSize=8;exitX=0.27;exitY=0.86;exitDx=0;exitDy=0;exitPerimeter=0;labelBackgroundColor=none;strokeColor=#000000;fontColor=default;strokeWidth=2;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-17.910000000000082" y="388.0999999999999" as="sourcePoint" />
+            <mxPoint x="-422" y="368" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="-394" y="174" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nVTmT-y1U-sntxcZQQoF-32" value="" style="edgeStyle=elbowEdgeStyle;elbow=horizontal;endArrow=classic;html=1;curved=0;rounded=0;endSize=8;startSize=8;exitX=0.27;exitY=0.86;exitDx=0;exitDy=0;exitPerimeter=0;labelBackgroundColor=none;strokeColor=#000000;fontColor=default;strokeWidth=2;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-17.910000000000082" y="265.0999999999999" as="sourcePoint" />
+            <mxPoint x="-422" y="368" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="-394" y="51" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nVTmT-y1U-sntxcZQQoF-36" value="&lt;font style=&quot;font-size: 8px;&quot;&gt;[←response] 해당 담당자 일정&amp;nbsp;&lt;/font&gt;&lt;font style=&quot;border-color: var(--border-color); font-size: 8px;&quot;&gt;(&lt;/font&gt;일정 번호, 할일 제목, 할일 내용, 담당자, 생성일, 수정일)" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=8;labelBackgroundColor=none;fontColor=#191919;fontStyle=1;strokeWidth=2;strokeColor=none;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" vertex="1">
+          <mxGeometry x="-360" y="268" width="321" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="nVTmT-y1U-sntxcZQQoF-38" value="&lt;font style=&quot;font-size: 8px;&quot;&gt;[←response] 전체 일정 (&lt;/font&gt;일정 번호, 할일 제목, 할일 내용, 담당자, 생성일, 수정일)" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=8;labelBackgroundColor=none;fontColor=#191919;fontStyle=1;strokeWidth=2;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" vertex="1">
+          <mxGeometry x="-360" y="390" width="296" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="nVTmT-y1U-sntxcZQQoF-39" value="&lt;font style=&quot;font-size: 8px;&quot;&gt;[←response] 선택 일정&amp;nbsp;&lt;font style=&quot;border-color: var(--border-color); font-size: 8px;&quot;&gt;(&lt;/font&gt;일정 번호, 할일 제목, 할일 내용, 담당자, 생성일, 수정일)&lt;br style=&quot;font-size: 8px;&quot;&gt;&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=8;labelBackgroundColor=none;fontColor=#191919;fontStyle=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" vertex="1">
+          <mxGeometry x="-360" y="512" width="301" height="17" as="geometry" />
+        </mxCell>
+        <mxCell id="nVTmT-y1U-sntxcZQQoF-40" value="&lt;font style=&quot;font-size: 8px;&quot;&gt;[←response] 수정된 일정 (할일 제목, 할일 내용, 담당자, 생성일, 수정일)&lt;br style=&quot;font-size: 8px;&quot;&gt;(패스워드 불일치일 경우 Exception)&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=8;labelBackgroundColor=none;fontColor=#191919;fontStyle=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" vertex="1">
+          <mxGeometry x="-360" y="628" width="265" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="yNdLX1Mq1MrG7fmjSq0X-1" value="선택 일정 삭제" style="rounded=0;whiteSpace=wrap;html=1;labelBackgroundColor=none;fontSize=16;fontFamily=Helvetica;horizontal=1;fontStyle=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" vertex="1" parent="1">
+          <mxGeometry x="-7" y="689" width="120" height="61" as="geometry" />
+        </mxCell>
+        <mxCell id="yNdLX1Mq1MrG7fmjSq0X-2" value="" style="edgeStyle=elbowEdgeStyle;elbow=horizontal;endArrow=classic;html=1;curved=0;rounded=0;endSize=8;startSize=8;entryX=0.978;entryY=1.043;entryDx=0;entryDy=0;entryPerimeter=0;labelBackgroundColor=none;strokeColor=#000000;fontColor=default;strokeWidth=2;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-380" y="464" as="sourcePoint" />
+            <mxPoint x="-14.416000000000054" y="718.29" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="-380" y="843" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yNdLX1Mq1MrG7fmjSq0X-3" value="" style="edgeStyle=elbowEdgeStyle;elbow=horizontal;endArrow=classic;html=1;curved=0;rounded=0;endSize=8;startSize=8;exitX=0.27;exitY=0.86;exitDx=0;exitDy=0;exitPerimeter=0;labelBackgroundColor=none;strokeColor=#000000;fontColor=default;strokeWidth=2;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-17.910000000000082" y="737.0999999999999" as="sourcePoint" />
+            <mxPoint x="-422" y="368" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="-394" y="523" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yNdLX1Mq1MrG7fmjSq0X-4" value="&lt;font style=&quot;font-size: 8px;&quot;&gt;[request→] 삭제 할 일정 및 패스워드 입력&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=8;labelBackgroundColor=none;fontColor=#191919;fontStyle=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" vertex="1" parent="1">
+          <mxGeometry x="-360" y="689" width="161.75" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="yNdLX1Mq1MrG7fmjSq0X-5" value="&lt;font style=&quot;font-size: 8px;&quot;&gt;[←response] 삭제된 일정 번호&amp;nbsp;&lt;br style=&quot;border-color: var(--border-color); font-size: 8px;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;(패스워드 불일치일 경우 Exception)&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=8;labelBackgroundColor=none;fontColor=#191919;fontStyle=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" vertex="1" parent="1">
+          <mxGeometry x="-430" y="739" width="265" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
