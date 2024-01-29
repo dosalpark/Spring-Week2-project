@@ -27,7 +27,7 @@ public class Schedule extends Timestemped{
     private String user;
 
     @Column(nullable = false, length = 500)
-    private String password;
+    private Boolean clearYn = false;
 
 
 
@@ -36,14 +36,13 @@ public class Schedule extends Timestemped{
         this.titleSchedule = scheduleRequestDto.getTitleSchedule();
         this.bodySchedule = scheduleRequestDto.getBodySchedule();
         this.user = scheduleRequestDto.getUser();
-        this.password = scheduleRequestDto.getPassword();
 
     }
     //일정 수정시 입력된 값으로 일정을 업데이트
     public void update(UpdateScheduleRequestDto updateScheduleRequestDto){
         this.titleSchedule = updateScheduleRequestDto.getTitleSchedule();
         this.bodySchedule = updateScheduleRequestDto.getBodySchedule();
-        this.user = updateScheduleRequestDto.getUser();
+//        this.user = updateScheduleRequestDto.getUser();
     }
 
 
