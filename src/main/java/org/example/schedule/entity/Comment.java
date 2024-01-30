@@ -5,10 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @NoArgsConstructor
 @Getter
-@Setter
 @Table
 public class Comment {
     @Id
@@ -18,6 +20,10 @@ public class Comment {
     @Column(nullable = false, length = 500)
     private String bodyComment;
 
-    @Column(nullable = false, length = 500)
-    private String user;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @OneToMany(mappedBy = "comment")
+    private List<ScheduelComment> scheduelCommentList = new ArrayList<>();
 }

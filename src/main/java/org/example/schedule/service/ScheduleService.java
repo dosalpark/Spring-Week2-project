@@ -5,6 +5,7 @@ import org.example.schedule.dto.ScheduleRequestDto;
 import org.example.schedule.dto.ScheduleResponseDto;
 import org.example.schedule.dto.UpdateScheduleRequestDto;
 import org.example.schedule.entity.Schedule;
+import org.example.schedule.entity.User;
 import org.example.schedule.repository.ScheduleRepository;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
@@ -22,36 +23,36 @@ public class ScheduleService {
     }
 
     //일정 등록
-    public ScheduleResponseDto createSchedule(ScheduleRequestDto scheduleRequestDto) {
+    public ScheduleResponseDto createSchedule(ScheduleRequestDto scheduleRequestDto, User user) {
         //입력받은 정보로 Schedule Entity 생성
-        Schedule schedule = new Schedule(scheduleRequestDto);
+        Schedule schedule = new Schedule(scheduleRequestDto, user);
         //Repository 에 저장
         Schedule addSchedule = scheduleRepository.save(schedule);
         //생성한 일정을 ScheduleResponseDto에 담아서 Controller로 전달
-        return new ScheduleResponseDto(addSchedule);
+        return new ScheduleResponseDto(addSchedule, user);
     }
 
-    //선택한 일정만 조회
-    public List<ScheduleResponseDto> getScheduleByUser(String username) {
-        //username이 들어간 일정만 찾아서 리스트로 생성 후 Controller로 전달
-        return scheduleRepository.findAllByUserEqualsOrderByCreatedAtDesc(username).stream()
-                .map(ScheduleResponseDto::new)
-                .toList();
-    }
-    //모든 일정 조회
-    public List<ScheduleResponseDto> getSchedule() {
-        //모든 일정을 리스트로 생성 후 Controller로 전달
-        return scheduleRepository.findAllByOrderByCreatedAtDesc().stream().
-                map(ScheduleResponseDto::new).
-                toList();
-    }
+//    //선택한 일정만 조회
+//    public List<ScheduleResponseDto> getScheduleByUser(User user) {
+//        //username이 들어간 일정만 찾아서 리스트로 생성 후 Controller로 전달
+//        return scheduleRepository.findAllByUserEqualsOrderByCreatedAtDesc(user).stream()
+//                .map(ScheduleResponseDto::new)
+//                .toList();
+//    }
+//    //모든 일정 조회
+//    public List<ScheduleResponseDto> getSchedule() {
+//        //모든 일정을 리스트로 생성 후 Controller로 전달
+//        return scheduleRepository.findAllByOrderByCreatedAtDesc().stream().
+//                map(ScheduleResponseDto::new).
+//                toList();
+//    }
 
     //단건 일정 조회
-    public ScheduleResponseDto getChoiceSchedule(Long id) {
+    public ScheduleResponseDto getChoiceSchedule(Long id, User user) {
         //입력 받은 id 값으로 Schedule Entity 생성
         Schedule schedule = findSchedule(id);
         //생성한 일정을 Controller로 전달
-        return new ScheduleResponseDto(schedule);
+        return new ScheduleResponseDto(schedule, user);
     }
 
     //선택 일정 수정

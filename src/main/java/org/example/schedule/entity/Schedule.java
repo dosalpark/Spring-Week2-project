@@ -7,10 +7,12 @@ import lombok.Setter;
 import org.example.schedule.dto.ScheduleRequestDto;
 import org.example.schedule.dto.UpdateScheduleRequestDto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @NoArgsConstructor
 @Getter
-@Setter
 @Table
 public class Schedule extends Timestemped{
     @Id
@@ -23,8 +25,13 @@ public class Schedule extends Timestemped{
     @Column(nullable = false, length = 500)
     private String bodySchedule;
 
-    @Column(nullable = false, length = 500)
-    private String user;
+    @OneToMany(mappedBy = "schedule")
+    private List<ScheduelComment> scheduelCommentList = new ArrayList<>();
+
+    //1:N 단방향
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @Column(nullable = false, length = 500)
     private Boolean clearYn = false;
@@ -32,10 +39,10 @@ public class Schedule extends Timestemped{
 
 
     //일정 입력시 생성자로 유저 입력정보 넘겨줌
-    public Schedule (ScheduleRequestDto scheduleRequestDto){
+    public Schedule (ScheduleRequestDto scheduleRequestDto, User user){
         this.titleSchedule = scheduleRequestDto.getTitleSchedule();
         this.bodySchedule = scheduleRequestDto.getBodySchedule();
-        this.user = scheduleRequestDto.getUser();
+        this.user = user;
 
     }
     //일정 수정시 입력된 값으로 일정을 업데이트

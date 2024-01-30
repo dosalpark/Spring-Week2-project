@@ -20,31 +20,24 @@ public class ScheduleController {
 
     //일정 등록
     //입력되는 정보에 PW 포함되어있어 @RequestBody 사용
-    @PostMapping("/schedule")
-    public ScheduleResponseDto createSchedule(@RequestBody ScheduleRequestDto scheduleRequestDto){
-        //서비스로 넘겨줘야 함
-        return scheduleService.createSchedule(scheduleRequestDto);
-    }
-
-//    //담당자 이름으로 일정 조회
-//    @GetMapping("/schedule/username")
-//    public List<ScheduleResponseDto> getScheduleByUser(@RequestParam String username){
-//        return scheduleService.getScheduleByUser(username);
+//    @PostMapping("/schedule")
+//    public ScheduleResponseDto createSchedule(@RequestBody ScheduleRequestDto scheduleRequestDto){
+//        //서비스로 넘겨줘야 함
+//        return scheduleService.createSchedule(scheduleRequestDto);
+//    }
+//
+//    //모든 일정 조회
+//    @GetMapping("/schedule")
+//    public List<ScheduleResponseDto> getSchedule(){
+//        return scheduleService.getSchedule();
 //
 //    }
-
-    //모든 일정 조회
-    @GetMapping("/schedule")
-    public List<ScheduleResponseDto> getSchedule(){
-        return scheduleService.getSchedule();
-
-    }
-
-    //단건 일정 조회
-    @GetMapping("/schedule/select/{id}")
-    public ScheduleResponseDto getChoiceSchedule(@PathVariable Long id){
-        return scheduleService.getChoiceSchedule(id);
-    }
+//
+//    //단건 일정 조회
+//    @GetMapping("/schedule/select/{id}")
+//    public ScheduleResponseDto getChoiceSchedule(@PathVariable Long id){
+//        return scheduleService.getChoiceSchedule(id);
+//    }
 
     //선택 일정 수정 OK
 //    @PutMapping("/schedule/{id}")

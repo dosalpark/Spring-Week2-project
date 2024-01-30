@@ -1,6 +1,7 @@
 package org.example.schedule.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,6 +9,7 @@ import lombok.Setter;
 @Entity
 @NoArgsConstructor
 @Getter
+@Setter
 @Table
 public class User {
     @Id
@@ -19,4 +21,9 @@ public class User {
 
     @Column(nullable = false, length = 500)
     private String password;
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 }
