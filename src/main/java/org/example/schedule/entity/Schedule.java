@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.schedule.dto.ScheduleRequestDto;
+import org.example.schedule.dto.AddScheduleRequestDto;
 import org.example.schedule.dto.UpdateScheduleRequestDto;
 
 import java.util.ArrayList;
@@ -13,6 +13,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @Getter
+@Setter
 @Table
 public class Schedule extends Timestemped{
     @Id
@@ -39,9 +40,9 @@ public class Schedule extends Timestemped{
 
 
     //일정 입력시 생성자로 유저 입력정보 넘겨줌
-    public Schedule (ScheduleRequestDto scheduleRequestDto, User user){
-        this.titleSchedule = scheduleRequestDto.getTitleSchedule();
-        this.bodySchedule = scheduleRequestDto.getBodySchedule();
+    public Schedule (AddScheduleRequestDto addScheduleRequestDto, User user){
+        this.titleSchedule = addScheduleRequestDto.getTitleSchedule();
+        this.bodySchedule = addScheduleRequestDto.getBodySchedule();
         this.user = user;
 
     }
@@ -49,7 +50,6 @@ public class Schedule extends Timestemped{
     public void update(UpdateScheduleRequestDto updateScheduleRequestDto){
         this.titleSchedule = updateScheduleRequestDto.getTitleSchedule();
         this.bodySchedule = updateScheduleRequestDto.getBodySchedule();
-//        this.user = updateScheduleRequestDto.getUser();
     }
 
 

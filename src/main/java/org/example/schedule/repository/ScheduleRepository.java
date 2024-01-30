@@ -9,9 +9,7 @@ import java.util.List;
 
 @Repository
 public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
-    //username이 들어간 일정만 찾아서 리스트로 생성
-    List<Schedule> findAllByUserEqualsOrderByCreatedAtDesc(User user);
-    //모든 일정을 작성일 역순으로 정렬 및 리스트로 생성
+    //모든 할일카드를 작성일 역순으로 정렬 및 리스트로 생성
     List<Schedule> findAllByOrderByCreatedAtDesc();
 
 }

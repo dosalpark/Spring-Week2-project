@@ -18,6 +18,10 @@ public class UserDetailsImpl implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
     }
+    //User 가져오기
+    public User getUser(){
+        return user;
+    }
 
     //사용자 패스워드 확인
     public String getPassword(){

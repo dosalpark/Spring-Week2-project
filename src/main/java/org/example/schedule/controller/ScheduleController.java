@@ -1,13 +1,17 @@
 package org.example.schedule.controller;
 
 
-import org.example.schedule.dto.ScheduleRequestDto;
-import org.example.schedule.dto.ScheduleResponseDto;
-import org.example.schedule.dto.UpdateScheduleRequestDto;
+import jakarta.servlet.http.HttpServletRequest;
+import org.example.schedule.dto.*;
+import org.example.schedule.entity.User;
+import org.example.schedule.security.UserDetailsImpl;
 import org.example.schedule.service.ScheduleService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -18,31 +22,35 @@ public class ScheduleController {
         this.scheduleService = scheduleService;
     }
 
-    //일정 등록
-    //입력되는 정보에 PW 포함되어있어 @RequestBody 사용
-//    @PostMapping("/schedule")
-//    public ScheduleResponseDto createSchedule(@RequestBody ScheduleRequestDto scheduleRequestDto){
-//        //서비스로 넘겨줘야 함
-//        return scheduleService.createSchedule(scheduleRequestDto);
-//    }
-//
-//    //모든 일정 조회
-//    @GetMapping("/schedule")
-//    public List<ScheduleResponseDto> getSchedule(){
-//        return scheduleService.getSchedule();
-//
-//    }
-//
-//    //단건 일정 조회
-//    @GetMapping("/schedule/select/{id}")
-//    public ScheduleResponseDto getChoiceSchedule(@PathVariable Long id){
-//        return scheduleService.getChoiceSchedule(id);
-//    }
+    //할일카드 등록
+    @PostMapping("/schedule")
+    public AddScheduleResponseDto createSchedule(@RequestBody AddScheduleRequestDto addScheduleRequestDto,
+                                                 @AuthenticationPrincipal UserDetailsImpl userDetails){
+        //서비스로 넘겨줘야 함
+        return scheduleService.createSchedule(addScheduleRequestDto, userDetails.getUser());
+    }
 
-    //선택 일정 수정 OK
-//    @PutMapping("/schedule/{id}")
-//    //수정시 password로 확인해야해서 @RequestBody사용해서 URL에서 안보이게 처리
-//    public ScheduleResponseDto updateSchedule(@PathVariable Long id, @RequestBody UpdateScheduleRequestDto updateScheduleRequestDto){
-//        return scheduleService.updateSchedule(id, updateScheduleRequestDto);
-//    }
+    //모든 할일카드 조회
+    @GetMapping("/schedule")
+    public List<AllScheduleResponseDto> getSchedule(){
+        return scheduleService.getSchedule();
+
+    }
+
+    //선택한 할일카드 조회
+    @GetMapping("/schedule/{id}")
+    public ChoiceScheduleResponseDto getChoiceSchedule(@PathVariable Long id){
+        return scheduleService.getChoiceSchedule(id);
+    }
+
+    //선택한 할일카드 수정 OK
+    @PutMapping("/schedule/{id}")
+    //수정시 password로 확인해야해서 @RequestBody사용해서 URL에서 안보이게 처리
+    public Optional<?> updateSchedule(@PathVariable Long id,
+                                   HttpServletRequest httpServletRequest,
+                                   @RequestBody UpdateScheduleRequestDto updateScheduleRequestDto,
+                                   @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return scheduleService.updateSchedule(id, httpServletRequest, updateScheduleRequestDto, userDetails);
+
+    }
 }
