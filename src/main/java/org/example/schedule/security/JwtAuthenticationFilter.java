@@ -8,6 +8,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.example.schedule.dto.UserRequestDto;
 import org.example.schedule.jwt.JwtUtil;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -49,22 +51,27 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
 
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) {
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException {
         //username으로 JWT토큰 생성
         // Authentication에 들어있는 pericipal(유저정보) 에서 username을 가져옴
         String username = ((UserDetailsImpl) authResult.getPrincipal()).getUsername();
         // jwtUtil에 토큰생성 메소드 통해서 생성
         String token = jwtUtil.createToken(username);
         //헤더의 키값과 토큰을 reponse로 전달
+        ResponseEntity<String> entity =
+                new ResponseEntity<String>("로그인 되었습니다.", HttpStatusCode.valueOf(200));
+        response.setStatus(entity.getStatusCode().value());
+        response.getWriter().write(entity.getBody());
         response.addHeader(JwtUtil.AUTHORIZATION_HEADER, token);
     }
 
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
         //에러 코드를 리턴
-        response.setStatus(400);
+        ResponseEntity<String> entity =
+                new ResponseEntity<String>("회원을 찾을 수 없습니다.", HttpStatusCode.valueOf(400));
+        response.setStatus(entity.getStatusCode().value());
+        response.getWriter().write(entity.getBody());
         log.error(String.valueOf(response.getStatus()));
     }
-
-
 }

@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     //UserDetailsServiceImpl 에서 일치하지 않을때 throw 던져야 해서 Optional 설정
     Optional<User> findByUsername(String username);
+
 }

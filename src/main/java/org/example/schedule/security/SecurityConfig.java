@@ -70,12 +70,12 @@ public class SecurityConfig {
                         //resource 접근 허용
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() //resourse 접근 가능
                         .requestMatchers("/api").permitAll() //메인페이지 접근가능
-                        .requestMatchers("/api/user**").permitAll() //로그인관련 /api/user 하위 url 접근 가능
+                        .requestMatchers("/api/user/**").permitAll() //로그인관련 /api/user 하위 url 접근 가능
                         .anyRequest().authenticated() //나머지는 모든요청 인증 확인
         );
         //formLogin 방식 사용 하고 해당 페이지 url 표기
         httpSecurity.formLogin((formLogin) -> formLogin
-                .loginPage("/api/user").permitAll()
+                .loginPage("/api/user/login").permitAll()
         );
         //필터 순서 (인가 -> 인증 -> UsernamePasswordAuthenticationFilter)
         httpSecurity.addFilterBefore(jwtAuthorizationFilter(), JwtAuthenticationFilter.class);
