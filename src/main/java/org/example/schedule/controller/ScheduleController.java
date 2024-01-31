@@ -3,6 +3,7 @@ package org.example.schedule.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.example.schedule.dto.*;
+import org.example.schedule.entity.Schedule;
 import org.example.schedule.entity.User;
 import org.example.schedule.security.UserDetailsImpl;
 import org.example.schedule.service.ScheduleService;
@@ -43,14 +44,22 @@ public class ScheduleController {
         return scheduleService.getChoiceSchedule(id);
     }
 
-    //선택한 할일카드 수정 OK
+    //선택한 할일카드 수정
     @PutMapping("/schedule/{id}")
-    //수정시 password로 확인해야해서 @RequestBody사용해서 URL에서 안보이게 처리
-    public Optional<?> updateSchedule(@PathVariable Long id,
-                                   HttpServletRequest httpServletRequest,
-                                   @RequestBody UpdateScheduleRequestDto updateScheduleRequestDto,
-                                   @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public ResponseEntity<?> updateSchedule(@PathVariable Long id,
+                                                   HttpServletRequest httpServletRequest,
+                                                   @RequestBody UpdateScheduleRequestDto updateScheduleRequestDto,
+                                                   @AuthenticationPrincipal UserDetailsImpl userDetails){
         return scheduleService.updateSchedule(id, httpServletRequest, updateScheduleRequestDto, userDetails);
+
+    }
+
+    //선택한 할일카드 완료처리
+    @PutMapping("/schedule/clear/{id}")
+    public void clearSchedule(@PathVariable Long id,
+                                            HttpServletRequest httpServletRequest,
+                                            @AuthenticationPrincipal UserDetailsImpl userDetails){
+        scheduleService.clearSchedule(id, httpServletRequest, userDetails);
 
     }
 }

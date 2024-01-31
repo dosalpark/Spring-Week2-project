@@ -12,12 +12,10 @@ import org.example.schedule.security.UserDetailsImpl;
 import org.example.schedule.security.UserDetailsServiceImpl;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.MultiValueMap;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,53 +65,47 @@ public class ScheduleService {
     }
 
     //선택한 할일카드 수정
+    //상황에 따라 본인 할일 카드가 아니면 String을 본인 할일카드 수정된 내용을 반환해야해서 ResponseEntity에 타입을 주지 않고 사용
     @Transactional
-    public Optional<?> updateSchedule(Long id,
-                                   HttpServletRequest httpServletRequest,
-                                   UpdateScheduleRequestDto updateScheduleRequestDto,
-                                   UserDetailsImpl userDetails) {
-        // 로그인한 사용자와 작성한 사용자 비교해서 본인 할일카드인지 확인
-        String loginUsername = userDetails.getUser().getUsername();
-        String loginPassword = userDetails.getUser().getPassword();
-        String scheduleUsername = findUser(id).getUsername();
-        String schedulePassword = findUser(id).getPassword();
-        if (!(loginUsername.equals(scheduleUsername) && loginPassword.equals(schedulePassword))){
-            ResponseEntity<String> entity = new ResponseEntity<String>("작성자만 삭제/수정할 수 있습니다.", HttpStatusCode.valueOf(400));
-            return Optional.of(ResponseEntity.status(400).body("작성자만 삭제/수정할 수 있습니다."));
-        }
-
+    public ResponseEntity<?> updateSchedule(Long id,
+                                            HttpServletRequest httpServletRequest,
+                                            UpdateScheduleRequestDto updateScheduleRequestDto,
+                                            UserDetailsImpl userDetails) {
         //토큰 유효성 검사
-        if (!jwtUtil.validateToken(jwtUtil.getJwtFromHeader(httpServletRequest))){
-            ResponseEntity<String> entity = new ResponseEntity<String>("유효하지않은 토큰입니다.", HttpStatusCode.valueOf(400));
-            return Optional.of(ResponseEntity.status(400).body("유효하지않은 토큰입니다."));
+        //토큰을 검중해서 토큰이 유효하지 않을 경우 String과 http 400code를 반환
+        if (!jwtUtil.validateToken(jwtUtil.getJwtFromHeader(httpServletRequest))) {
+            return new ResponseEntity<>("유효하지않은 토큰입니다", HttpStatusCode.valueOf(400));
         }
 
-        // 수정
+        // 로그인한 사용자와 작성한 사용자 비교해서 본인 할일카드인지 확인
+        //본인 할일카드가 아닐 경우 String과 http 400code를 반환
+        if (!findMySchedule(id, userDetails)) {
+            return new ResponseEntity<>("작성자만 삭제/수정할 수 있습니다.", HttpStatusCode.valueOf(400));
+        }
+
+        // 본인 할일카드 + 윺효성이 검증되면 받아온 id로 해당 할일카드를 찾음
         Schedule schedule = findSchedule(id);
+        // 만들어논 update 메소드를 이용해서 해당 할일카드 업데이트
         schedule.update(updateScheduleRequestDto);
-        return Optional.of(new ChoiceScheduleResponseDto(schedule));
-
-
-        //입력받은 값에서 password만 String Password로 저장
-//        String password = updateScheduleRequestDto.getPassword();
-        //패스워드 검증(pwCheck 메소드) 후 이상 없으면 Schedule Entity 생성
-//        Schedule schedule = pwCheck(id, password);
-        //유저가 입력한 수정된 내용으로 update 메소드 이용해서 정보 업데이트
-//        schedule.update(updateScheduleRequestDto);
-        //Controller에게 수정된 일정 전달.
+        //Choice..Dtd(반환값 title,body,username,createAt)에 수정내용 전달
+        ChoiceScheduleResponseDto choiceScheduleResponseDto = new ChoiceScheduleResponseDto(schedule);
+        // controller로 ResponseEntity에 Dto와 code를 같이 담아서 전달
+        return new ResponseEntity<>(choiceScheduleResponseDto, HttpStatusCode.valueOf(200));
     }
 
-//    //선택 일정 삭제
-//    public Long deleteSchedule(Long id, PwCheckScheduleRequestDto pwCheckScheduleRequestDto) {
-//        //입력받은 패스워드를 String Password로 저장
-//        String password = pwCheckScheduleRequestDto.getPassword();
-//        //패스워드 검증(pwCheck 메소드) 후 이상 없으면 Schedule Entity 생성
-//        Schedule schedule = pwCheck(id, password);
-//        // 해당 일정 삭제
-//        scheduleRepository.delete(schedule);
-//        //Controller에게 삭제된 id 값 만 전달
-//        return id;
-//    }
+    //선택한 할일카드 완료 처리
+    @Transactional
+    public void clearSchedule(Long id, HttpServletRequest httpServletRequest, UserDetailsImpl userDetails) {
+        //토큰 유효성 검사
+        //토큰을 검중해서 토큰이 유효한지 확인
+        if (jwtUtil.validateToken(jwtUtil.getJwtFromHeader(httpServletRequest))) {
+            // 로그인한 사용자와 작성한 사용자 비교해서 본인 할일카드인지 확인
+            if (findMySchedule(id, userDetails)) {
+                Schedule schedule = findSchedule(id);
+                schedule.setClearYn(true);
+            }
+        }
+    }
 
 
     //입력받은 id 값으로 해당하는 작성자 찾기
@@ -132,23 +124,17 @@ public class ScheduleService {
                 new IllegalArgumentException("해당 스케쥴은 등록되어있지 않습니다."));
     }
 
-//    //패스워드 체크
-//    private Schedule pwCheck(Long id, String password) {
-//        //이용자에게 입력받은 id 값으로 findSchedule 메소드를 이용해서 Schedule Entity 생성
-//        Schedule schedule = findSchedule(id);
-//        //수정 전 password 값을 String oldPassword 에 입력
-//        String oldPassword = schedule.getPassword();
-//        //이용자가 입력한 패스워드(String password)와 변경 전 패스워드(String oldPassword)를 비교해서 일치하면 Schedule Entity 반환
-//        //패스워드 일치하지 않을시 Exception 발생
-//        if (!oldPassword.equals(password)) {
-//            throw new BadCredentialsException("패스워드가 일치하지 않습니다.");
-//        }
-//        return schedule;
-//
-////        패스워드 null 일 때 Exception 생성했으나 Schedule 클래스에 password  @Column(nullable = false) 로 null 발생 할 수 없어서 주석처리
-////        if (scheduleRequestDto.getPw() == null){
-////            throw new NullPointerException("패스워드가 입력되지 않았습니다.");
-////        }
-//    }
+    //입력받은 id 값으로 해당하는 글의 작성자인지 확인
+    private boolean findMySchedule(Long id, UserDetailsImpl userDetails) {
+        String loginUsername = userDetails.getUser().getUsername();
+        String loginPassword = userDetails.getUser().getPassword();
+        String scheduleUsername = findUser(id).getUsername();
+        String schedulePassword = findUser(id).getPassword();
+        if ((loginUsername.equals(scheduleUsername) && loginPassword.equals(schedulePassword))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 
