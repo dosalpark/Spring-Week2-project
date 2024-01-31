@@ -26,13 +26,14 @@ public class Schedule extends Timestemped{
     @Column(nullable = false, length = 500)
     private String bodySchedule;
 
-    @OneToMany(mappedBy = "schedule")
-    private List<ScheduelComment> scheduelCommentList = new ArrayList<>();
-
     //1:N 단방향
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    //1:N 양방향
+    @OneToMany(mappedBy = "schedule")
+    private List<Comment> commentList = new ArrayList<>();
 
     @Column(nullable = false, length = 500)
     private Boolean clearYn = false;

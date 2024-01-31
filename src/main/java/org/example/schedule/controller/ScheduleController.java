@@ -39,27 +39,27 @@ public class ScheduleController {
     }
 
     //선택한 할일카드 조회
-    @GetMapping("/schedule/{id}")
-    public ChoiceScheduleResponseDto getChoiceSchedule(@PathVariable Long id){
-        return scheduleService.getChoiceSchedule(id);
+    @GetMapping("/schedule/{scheduleId}")
+    public ChoiceScheduleResponseDto getChoiceSchedule(@PathVariable Long scheduleId){
+        return scheduleService.getChoiceSchedule(scheduleId);
     }
 
     //선택한 할일카드 수정
-    @PutMapping("/schedule/{id}")
-    public ResponseEntity<?> updateSchedule(@PathVariable Long id,
+    @PutMapping("/schedule/{scheduleId}")
+    public ResponseEntity<?> updateSchedule(@PathVariable Long scheduleId,
                                                    HttpServletRequest httpServletRequest,
                                                    @RequestBody UpdateScheduleRequestDto updateScheduleRequestDto,
                                                    @AuthenticationPrincipal UserDetailsImpl userDetails){
-        return scheduleService.updateSchedule(id, httpServletRequest, updateScheduleRequestDto, userDetails);
+        return scheduleService.updateSchedule(scheduleId, httpServletRequest, updateScheduleRequestDto, userDetails);
 
     }
 
     //선택한 할일카드 완료처리
-    @PutMapping("/schedule/clear/{id}")
-    public void clearSchedule(@PathVariable Long id,
+    @PutMapping("/schedule/clear/{scheduleId}")
+    public void clearSchedule(@PathVariable Long scheduleId,
                                             HttpServletRequest httpServletRequest,
                                             @AuthenticationPrincipal UserDetailsImpl userDetails){
-        scheduleService.clearSchedule(id, httpServletRequest, userDetails);
+        scheduleService.clearSchedule(scheduleId, httpServletRequest, userDetails);
 
     }
 }
