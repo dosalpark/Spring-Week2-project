@@ -39,5 +39,12 @@ public class CommentController {
 
 
     //댓글 삭제
+    @DeleteMapping("/schedule/{scheduleId}/comment/{commentId}")
+    public ResponseEntity<String> deleteComment(@PathVariable Long scheduleId,
+                                                @PathVariable Long commentId,
+                                                HttpServletRequest httpServletRequest,
+                                                @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return commentService.deleteComment(scheduleId, commentId, httpServletRequest, userDetails);
+    }
 
 }

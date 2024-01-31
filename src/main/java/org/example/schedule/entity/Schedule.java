@@ -31,9 +31,9 @@ public class Schedule extends Timestemped{
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    //1:N 양방향
-    @OneToMany(mappedBy = "schedule")
-    private List<Comment> commentList = new ArrayList<>();
+//    //1:N 양방향
+//    @OneToMany(mappedBy = "schedule")
+//    private List<Comment> commentList = new ArrayList<>();
 
     @Column(nullable = false, length = 500)
     private Boolean clearYn = false;

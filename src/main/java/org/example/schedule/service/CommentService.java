@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.example.schedule.dto.AddCommentRequestDto;
 import org.example.schedule.dto.AddCommentResponseDto;
 import org.example.schedule.dto.UpdateCommentRequestDto;
+import org.example.schedule.dto.UpdateCommentResponsetDto;
 import org.example.schedule.entity.Comment;
 import org.example.schedule.entity.Schedule;
 import org.example.schedule.entity.User;
@@ -78,10 +79,33 @@ public class CommentService {
         comment.update(updateCommentRequestDto);
         // ResponseEntity에 commentResponsetDto 넣어서 comtroller로 전달
         Comment updateComment = commentRepository.save(comment);
-        return new ResponseEntity<>(updateComment,HttpStatusCode.valueOf(200));
+        UpdateCommentResponsetDto updateCommentResponsetDto = new UpdateCommentResponsetDto(updateComment);
+        return new ResponseEntity<>(updateCommentResponsetDto,HttpStatusCode.valueOf(200));
 
     }
-
+    // 댓글 삭제
+    @Transactional
+    public ResponseEntity<String> deleteComment(Long scheduleId,
+                                                Long commentId,
+                                                HttpServletRequest httpServletRequest,
+                                                UserDetailsImpl userDetails) {
+        // 사용자의 토큰 유효한지 확인
+        if (!jwtUtil.validateToken(jwtUtil.getJwtFromHeader(httpServletRequest))) {
+            return new ResponseEntity<>("유효하지않은 토큰입니다", HttpStatusCode.valueOf(400));
+        }
+        // 할일카드가 없을수도있으니 Optional<Schedule>로 설정 후 비어있으면 400Error, String 전달
+        Optional<Schedule> scheduleCheck = scheduleRepository.findById(scheduleId);
+        if (scheduleCheck.isEmpty()){
+            return new ResponseEntity<>("해당하는 할일카드가 없습니다.", HttpStatusCode.valueOf(400));
+        }
+        // 본인이 쓴 댓글인지 확인
+        if(!findMyComment(commentId,userDetails)){
+            return new ResponseEntity<>("작성자만 삭제/수정할 수 있습니다.", HttpStatusCode.valueOf(400));
+        }
+        Comment comment = findComment(commentId);
+        commentRepository.delete(comment);
+        return new ResponseEntity<>("댓글이 삭제 되었습니다.",HttpStatusCode.valueOf(200));
+    }
 
 
     //입력받은 commentId 값으로 해당하는 작성자 찾기
@@ -109,4 +133,5 @@ public class CommentService {
         String schedulePassword = findUser(id).getPassword();
         return loginUsername.equals(scheduleUsername) && loginPassword.equals(schedulePassword);
     }
+
 }
