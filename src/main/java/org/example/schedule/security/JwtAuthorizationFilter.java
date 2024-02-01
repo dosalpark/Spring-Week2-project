@@ -37,7 +37,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         //hasText사용해서 토큰 값 검증 (실패시 token error 로그 기록)
         if (StringUtils.hasText(tokenValue)) {
             //jwtUtil에 validateToken 메소드 검증
-            if (!jwtUtil.validateToken(tokenValue)) {
+            if (!jwtUtil.validateToken(tokenValue, response)) {
                 log.error("Token Error");
                 return;
             }

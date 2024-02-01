@@ -1,13 +1,21 @@
 package org.example.schedule.jwt;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.example.schedule.entity.Code;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import org.springframework.web.ErrorResponse;
 
+import java.io.IOException;
 import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
@@ -57,17 +65,22 @@ public class JwtUtil {
     }
 
     // 토큰 검증
-    public boolean validateToken(String token) {
+    public boolean validateToken(String token, HttpServletResponse response) throws IOException {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
+            //검증하다 에러났을경우 에러코드랑 response 같이 들고감
         } catch (SecurityException | MalformedJwtException | SignatureException e) {
+            tokenErrorException(response);
             log.error("Invalid JWT signature, 유효하지 않는 JWT 서명 입니다.");
         } catch (ExpiredJwtException e) {
+            tokenErrorException(response);
             log.error("Expired JWT token, 만료된 JWT token 입니다.");
         } catch (UnsupportedJwtException e) {
+            tokenErrorException(response);
             log.error("Unsupported JWT token, 지원되지 않는 JWT 토큰 입니다.");
         } catch (IllegalArgumentException e) {
+            tokenErrorException(response);
             log.error("JWT claims is empty, 잘못된 JWT 토큰 입니다.");
         }
         return false;
@@ -76,5 +89,18 @@ public class JwtUtil {
     // 토큰에서 사용자 정보 가져오기
     public Claims getUserInfoFromToken(String token) {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+    }
+
+    //토큰 에러시 진행
+    private void tokenErrorException (HttpServletResponse response) throws IOException {
+        //확인필요
+//        response.getWriter().write(Code.FAIL_404.getStatusComment());
+//        System.out.println("Code.FAIL_404.getStatusComment() = " + Code.FAIL_404.getStatusComment());
+        //전달할 메세지
+        response.getWriter().write("유효하지 않은 토큰입니다.");
+        //전달할 HTTP 상태코드 (httpstatus가 eunm을 사용해서 해당하는 value() 를 붙혀야함)
+        response.setStatus(HttpStatusCode.valueOf(400).value());
+
+//        }
     }
 }

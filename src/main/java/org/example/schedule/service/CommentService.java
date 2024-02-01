@@ -40,9 +40,9 @@ public class CommentService {
                                           AddCommentRequestDto addCommentRequestDto,
                                           UserDetailsImpl userDetails) {
         // 사용자의 토큰 유효한지 확인
-        if (!jwtUtil.validateToken(jwtUtil.getJwtFromHeader(httpServletRequest))) {
-            return new ResponseEntity<>(Code.FAIL_404, HttpStatusCode.valueOf(400));
-        }
+//        if (!jwtUtil.validateToken(jwtUtil.getJwtFromHeader(httpServletRequest))) {
+//            return new ResponseEntity<>(Code.FAIL_404, HttpStatusCode.valueOf(400));
+//        }
         // 할일카드가 없을수도있으니 Optional<Schedule>로 설정 후 비어있으면 400Error, String 전달
         Optional<Schedule> scheduleCheck = scheduleRepository.findById(scheduleId);
         if (scheduleCheck.isEmpty()){
@@ -63,9 +63,9 @@ public class CommentService {
                                            UpdateCommentRequestDto updateCommentRequestDto,
                                            UserDetailsImpl userDetails) {
         // 사용자의 토큰 유효한지 확인
-        if (!jwtUtil.validateToken(jwtUtil.getJwtFromHeader(httpServletRequest))) {
-            return new ResponseEntity<>(Code.FAIL_404, HttpStatusCode.valueOf(400));
-        }
+//        if (!jwtUtil.validateToken(jwtUtil.getJwtFromHeader(httpServletRequest))) {
+//            return new ResponseEntity<>(Code.FAIL_404, HttpStatusCode.valueOf(400));
+//        }
         // 할일카드가 없을수도있으니 Optional<Schedule>로 설정 후 비어있으면 400Error, String 전달
         Optional<Schedule> scheduleCheck = scheduleRepository.findById(scheduleId);
         if (scheduleCheck.isEmpty()){
@@ -91,9 +91,9 @@ public class CommentService {
                                                 HttpServletRequest httpServletRequest,
                                                 UserDetailsImpl userDetails) {
         // 사용자의 토큰 유효한지 확인
-        if (!jwtUtil.validateToken(jwtUtil.getJwtFromHeader(httpServletRequest))) {
-            return new ResponseEntity<>(Code.FAIL_404, HttpStatusCode.valueOf(400));
-        }
+//        if (!jwtUtil.validateToken(jwtUtil.getJwtFromHeader(httpServletRequest))) {
+//            return new ResponseEntity<>(Code.FAIL_404, HttpStatusCode.valueOf(400));
+//        }
         // 할일카드가 없을수도있으니 Optional<Schedule>로 설정 후 비어있으면 400Error, String 전달
         Optional<Schedule> scheduleCheck = scheduleRepository.findById(scheduleId);
         if (scheduleCheck.isEmpty()){

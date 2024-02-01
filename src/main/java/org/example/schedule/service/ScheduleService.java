@@ -38,7 +38,7 @@ public class ScheduleService {
                                             AddScheduleRequestDto addScheduleRequestDto,
                                             UserDetailsImpl userDetails) {
         //토큰 유효성 검사
-        userTokenCheck(httpServletRequest);
+//        userTokenCheck(httpServletRequest);
         //에러 여부 검사
         if (result.isEmpty()) {
             //새로운 Schedule Entity에 user 정보까지 같이담아서 repo에 저장
@@ -82,7 +82,7 @@ public class ScheduleService {
                                             UpdateScheduleRequestDto updateScheduleRequestDto,
                                             UserDetailsImpl userDetails) {
         //토큰 유효성 검사
-        userTokenCheck(httpServletRequest);
+//        userTokenCheck(httpServletRequest);
         //작성자 본인인지 확인
         findMySchedule(scheduleId, userDetails);
         //에러가 있는지 확인
@@ -94,6 +94,7 @@ public class ScheduleService {
             return new ResponseEntity<>(updateScheduleResponseDto, HttpStatusCode.valueOf(200));
         } else {
             //result에 있는 에러중 첫번째로 뜬 에러로 반환 후 result 비움, controller로 리턴
+            System.out.println("result.get(0) = " + result.get(0));
             ResponseEntity<?> response = new ResponseEntity<>(result.get(0), HttpStatusCode.valueOf(400));
             result.clear();
             return response;
@@ -104,7 +105,7 @@ public class ScheduleService {
     @Transactional
     public void clearSchedule(Long scheduleId, HttpServletRequest httpServletRequest, UserDetailsImpl userDetails) {
         //토큰 유효성 검사
-        userTokenCheck(httpServletRequest);
+//        userTokenCheck(httpServletRequest);
         //작성자 본인인지 확인
         findMySchedule(scheduleId, userDetails);
         //에러가 있는지 확인
@@ -133,7 +134,9 @@ public class ScheduleService {
         String scheduleUsername = findUser(scheduleId).getUsername();
         String schedulePassword = findUser(scheduleId).getPassword();
         if (!(loginUsername.equals(scheduleUsername) && loginPassword.equals(schedulePassword))) {
-            result.add(Code.FAIL_405.getStatusComment());
+            result.add(String.valueOf(Code.FAIL_405.getStatusComment()));
+            result.add("ㅁㄴㅇㅁㄴㅇ");
+            System.out.println("Code.FAIL_405.getStatusComment() = " + Code.FAIL_405.getStatusComment());
         }
     }
 
@@ -145,11 +148,11 @@ public class ScheduleService {
         return schedule.getUser();
     }
 
-    //토큰 유효성 검사
-    private void userTokenCheck(HttpServletRequest httpServletRequest) {
-        if (!jwtUtil.validateToken(jwtUtil.getJwtFromHeader(httpServletRequest))) {
-            result.add(Code.FAIL_404.getStatusComment());
-        }
-    }
+//    //토큰 유효성 검사
+//    private void userTokenCheck(HttpServletRequest httpServletRequest) {
+//        if (!jwtUtil.validateToken(jwtUtil.getJwtFromHeader(httpServletRequest))) {
+//            result.add(Code.FAIL_404.getStatusComment());
+//        }
+//    }
 }
 
