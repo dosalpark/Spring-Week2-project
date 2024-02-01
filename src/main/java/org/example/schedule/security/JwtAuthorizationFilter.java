@@ -74,6 +74,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         // username을 불러와서 userDetails에 넣음
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         //가져온 정보로 UsernamePasswordAuthenticationToken 생성해서 Authentication에 전달
-        return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        //userDetails부분만 가져가는거긴 한데 권한은 따로 설정안해서 null로 입력했음.
+        return new UsernamePasswordAuthenticationToken(userDetails, null, null);
     }
 }

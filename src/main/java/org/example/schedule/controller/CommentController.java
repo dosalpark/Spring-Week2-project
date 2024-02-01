@@ -10,7 +10,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/schedule/{scheduleId}/comment")
 public class CommentController {
     private CommentService commentService;
 
@@ -19,7 +19,7 @@ public class CommentController {
     }
 
     //댓글 작성
-    @PostMapping("/schedule/{scheduleId}/comment")
+    @PostMapping
     public ResponseEntity<?> createComment(@PathVariable Long scheduleId,
                                            HttpServletRequest httpServletRequest,
                                            @RequestBody AddCommentRequestDto addCommentRequestDto,
@@ -28,7 +28,7 @@ public class CommentController {
     }
 
     //댓글 수정
-    @PostMapping("/schedule/{scheduleId}/comment/{commentId}")
+    @PostMapping("/{commentId}")
     public ResponseEntity<?> updateComment(@PathVariable Long scheduleId,
                                            @PathVariable Long commentId,
                                            HttpServletRequest httpServletRequest,
@@ -39,7 +39,7 @@ public class CommentController {
 
 
     //댓글 삭제
-    @DeleteMapping("/schedule/{scheduleId}/comment/{commentId}")
+    @DeleteMapping("/{commentId}")
     public ResponseEntity<String> deleteComment(@PathVariable Long scheduleId,
                                                 @PathVariable Long commentId,
                                                 HttpServletRequest httpServletRequest,

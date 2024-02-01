@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/schedule")
 public class ScheduleController {
     //공통으로 사용할 Service 필드 선언 및 생성자
     final private ScheduleService scheduleService;
@@ -24,7 +24,7 @@ public class ScheduleController {
     }
 
     //할일카드 등록
-    @PostMapping("/schedule")
+    @PostMapping
     public AddScheduleResponseDto createSchedule(@RequestBody AddScheduleRequestDto addScheduleRequestDto,
                                                  @AuthenticationPrincipal UserDetailsImpl userDetails){
         //서비스로 넘겨줘야 함
@@ -32,20 +32,20 @@ public class ScheduleController {
     }
 
     //모든 할일카드 조회
-    @GetMapping("/schedule")
+    @GetMapping
     public List<AllScheduleResponseDto> getSchedule(){
         return scheduleService.getSchedule();
 
     }
 
     //선택한 할일카드 조회
-    @GetMapping("/schedule/{scheduleId}")
+    @GetMapping("/{scheduleId}")
     public ChoiceScheduleResponseDto getChoiceSchedule(@PathVariable Long scheduleId){
         return scheduleService.getChoiceSchedule(scheduleId);
     }
 
     //선택한 할일카드 수정
-    @PutMapping("/schedule/{scheduleId}")
+    @PutMapping("/{scheduleId}")
     public ResponseEntity<?> updateSchedule(@PathVariable Long scheduleId,
                                                    HttpServletRequest httpServletRequest,
                                                    @RequestBody UpdateScheduleRequestDto updateScheduleRequestDto,
@@ -55,7 +55,7 @@ public class ScheduleController {
     }
 
     //선택한 할일카드 완료처리
-    @PutMapping("/schedule/clear/{scheduleId}")
+    @PutMapping("/{scheduleId}/clear")
     public void clearSchedule(@PathVariable Long scheduleId,
                                             HttpServletRequest httpServletRequest,
                                             @AuthenticationPrincipal UserDetailsImpl userDetails){
