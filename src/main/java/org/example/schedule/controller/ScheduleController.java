@@ -25,15 +25,16 @@ public class ScheduleController {
 
     //할일카드 등록
     @PostMapping
-    public AddScheduleResponseDto createSchedule(@RequestBody AddScheduleRequestDto addScheduleRequestDto,
+    public ResponseEntity<?> createSchedule(HttpServletRequest httpServletRequest,
+                                                 @RequestBody AddScheduleRequestDto addScheduleRequestDto,
                                                  @AuthenticationPrincipal UserDetailsImpl userDetails){
         //서비스로 넘겨줘야 함
-        return scheduleService.createSchedule(addScheduleRequestDto, userDetails.getUser());
+        return scheduleService.createSchedule(httpServletRequest, addScheduleRequestDto, userDetails);
     }
 
     //모든 할일카드 조회
     @GetMapping
-    public List<AllScheduleResponseDto> getSchedule(){
+    public ResponseEntity<?> getSchedule(){
         return scheduleService.getSchedule();
 
     }

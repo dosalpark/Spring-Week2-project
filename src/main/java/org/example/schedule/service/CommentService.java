@@ -5,6 +5,7 @@ import org.example.schedule.dto.AddCommentRequestDto;
 import org.example.schedule.dto.AddCommentResponseDto;
 import org.example.schedule.dto.UpdateCommentRequestDto;
 import org.example.schedule.dto.UpdateCommentResponsetDto;
+import org.example.schedule.entity.Code;
 import org.example.schedule.entity.Comment;
 import org.example.schedule.entity.Schedule;
 import org.example.schedule.entity.User;
@@ -40,12 +41,12 @@ public class CommentService {
                                           UserDetailsImpl userDetails) {
         // 사용자의 토큰 유효한지 확인
         if (!jwtUtil.validateToken(jwtUtil.getJwtFromHeader(httpServletRequest))) {
-            return new ResponseEntity<>("유효하지않은 토큰입니다", HttpStatusCode.valueOf(400));
+            return new ResponseEntity<>(Code.FAIL_404, HttpStatusCode.valueOf(400));
         }
         // 할일카드가 없을수도있으니 Optional<Schedule>로 설정 후 비어있으면 400Error, String 전달
         Optional<Schedule> scheduleCheck = scheduleRepository.findById(scheduleId);
         if (scheduleCheck.isEmpty()){
-            return new ResponseEntity<>("해당하는 할일카드가 없습니다.", HttpStatusCode.valueOf(400));
+            return new ResponseEntity<>(Code.FAIL_406, HttpStatusCode.valueOf(400));
         }
         // 댓글 내용 저장
         Comment addComment = commentRepository.save(new Comment(userDetails.getUser(),scheduleCheck.get(), addCommentRequestDto));
@@ -63,16 +64,16 @@ public class CommentService {
                                            UserDetailsImpl userDetails) {
         // 사용자의 토큰 유효한지 확인
         if (!jwtUtil.validateToken(jwtUtil.getJwtFromHeader(httpServletRequest))) {
-            return new ResponseEntity<>("유효하지않은 토큰입니다", HttpStatusCode.valueOf(400));
+            return new ResponseEntity<>(Code.FAIL_404, HttpStatusCode.valueOf(400));
         }
         // 할일카드가 없을수도있으니 Optional<Schedule>로 설정 후 비어있으면 400Error, String 전달
         Optional<Schedule> scheduleCheck = scheduleRepository.findById(scheduleId);
         if (scheduleCheck.isEmpty()){
-            return new ResponseEntity<>("해당하는 할일카드가 없습니다.", HttpStatusCode.valueOf(400));
+            return new ResponseEntity<>(Code.FAIL_406, HttpStatusCode.valueOf(400));
         }
         // 본인이 쓴 댓글인지 확인
         if(!findMyComment(commentId,userDetails)){
-            return new ResponseEntity<>("작성자만 삭제/수정할 수 있습니다.", HttpStatusCode.valueOf(400));
+            return new ResponseEntity<>(Code.FAIL_405, HttpStatusCode.valueOf(400));
         }
         // 댓글 가져와서 수정
         Comment comment = findComment(commentId);
@@ -85,26 +86,26 @@ public class CommentService {
     }
     // 댓글 삭제
     @Transactional
-    public ResponseEntity<String> deleteComment(Long scheduleId,
+    public ResponseEntity<?> deleteComment(Long scheduleId,
                                                 Long commentId,
                                                 HttpServletRequest httpServletRequest,
                                                 UserDetailsImpl userDetails) {
         // 사용자의 토큰 유효한지 확인
         if (!jwtUtil.validateToken(jwtUtil.getJwtFromHeader(httpServletRequest))) {
-            return new ResponseEntity<>("유효하지않은 토큰입니다", HttpStatusCode.valueOf(400));
+            return new ResponseEntity<>(Code.FAIL_404, HttpStatusCode.valueOf(400));
         }
         // 할일카드가 없을수도있으니 Optional<Schedule>로 설정 후 비어있으면 400Error, String 전달
         Optional<Schedule> scheduleCheck = scheduleRepository.findById(scheduleId);
         if (scheduleCheck.isEmpty()){
-            return new ResponseEntity<>("해당하는 할일카드가 없습니다.", HttpStatusCode.valueOf(400));
+            return new ResponseEntity<>(Code.FAIL_406, HttpStatusCode.valueOf(400));
         }
         // 본인이 쓴 댓글인지 확인
         if(!findMyComment(commentId,userDetails)){
-            return new ResponseEntity<>("작성자만 삭제/수정할 수 있습니다.", HttpStatusCode.valueOf(400));
+            return new ResponseEntity<>(Code.FAIL_405, HttpStatusCode.valueOf(400));
         }
         Comment comment = findComment(commentId);
         commentRepository.delete(comment);
-        return new ResponseEntity<>("댓글이 삭제 되었습니다.",HttpStatusCode.valueOf(200));
+        return new ResponseEntity<>(Code.SUCCESS_202,HttpStatusCode.valueOf(200));
     }
 
 

@@ -40,7 +40,7 @@ public class CommentController {
 
     //댓글 삭제
     @DeleteMapping("/{commentId}")
-    public ResponseEntity<String> deleteComment(@PathVariable Long scheduleId,
+    public ResponseEntity<?> deleteComment(@PathVariable Long scheduleId,
                                                 @PathVariable Long commentId,
                                                 HttpServletRequest httpServletRequest,
                                                 @AuthenticationPrincipal UserDetailsImpl userDetails){

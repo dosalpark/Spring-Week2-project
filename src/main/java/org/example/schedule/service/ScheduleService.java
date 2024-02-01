@@ -4,6 +4,7 @@ package org.example.schedule.service;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.example.schedule.dto.*;
+import org.example.schedule.entity.Code;
 import org.example.schedule.entity.Schedule;
 import org.example.schedule.entity.User;
 import org.example.schedule.jwt.JwtUtil;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -22,6 +24,8 @@ public class ScheduleService {
     //공통으로 사용 할 Repository 필드 선언 및 생성자 생성
     private final ScheduleRepository scheduleRepository;
     private final JwtUtil jwtUtil;
+    //에러코드담기
+    private final List<String> result = new ArrayList<>();
 
 
     public ScheduleService(ScheduleRepository scheduleRepository, JwtUtil jwtUtil) {
@@ -30,25 +34,37 @@ public class ScheduleService {
     }
 
     //할일카드 등록
-    public AddScheduleResponseDto createSchedule(AddScheduleRequestDto addScheduleRequestDto, User user) {
-        //새로운 Schedule Entity에 user 정보까지 같이담아서 repo에 저장
-        Schedule addSchedule = scheduleRepository.save(new Schedule(addScheduleRequestDto, user));
-        //생성한 할일카드를 ScheduleResponseDto에 담아서 Controller로 전달
-        //user정보가 AddScheduleResponseDto 생성하면서 username 만들어줌
-        return new AddScheduleResponseDto(addSchedule, user);
+    public ResponseEntity<?> createSchedule(HttpServletRequest httpServletRequest,
+                                            AddScheduleRequestDto addScheduleRequestDto,
+                                            UserDetailsImpl userDetails) {
+        //토큰 유효성 검사
+        userTokenCheck(httpServletRequest);
+        //에러 여부 검사
+        if (result.isEmpty()) {
+            //새로운 Schedule Entity에 user 정보까지 같이담아서 repo에 저장
+            Schedule addSchedule = scheduleRepository.save(new Schedule(addScheduleRequestDto, userDetails.getUser()));
+            //생성한 할일카드를 AddScheduleResponseDto에 유저정보와 같이 담음
+            AddScheduleResponseDto addScheduleResponseDto = new AddScheduleResponseDto(addSchedule, userDetails.getUser());
+            return new ResponseEntity<>(addScheduleResponseDto, HttpStatusCode.valueOf(200));
+        } else {
+            //첫번째 에러사항이랑 HTTP 400코드 리턴
+            ResponseEntity<?> response = new ResponseEntity<>(result.get(0), HttpStatusCode.valueOf(400));
+            result.clear();
+            return response;
+        }
     }
 
     //모든 할일카드 조회
-    public List<AllScheduleResponseDto> getSchedule() {
+    public ResponseEntity<?> getSchedule() {
         //모든 할일카드를 리스트로 생성 후 Controller로 전달
         List<AllScheduleResponseDto> allScheduleResponseDtoList =
                 scheduleRepository.findAllByOrderByCreatedAtDesc().stream()
                         .map(AllScheduleResponseDto::new).toList();
         //비어있으면 Exception 발생
         if (allScheduleResponseDtoList.isEmpty()) {
-            throw new NullPointerException("입력된 할일이 없습니다.");
+            return new ResponseEntity<>(Code.FAIL_403.getStatusCode(), HttpStatusCode.valueOf(400));
         }
-        return allScheduleResponseDtoList;
+        return new ResponseEntity<>(allScheduleResponseDtoList, HttpStatusCode.valueOf(200));
     }
 
     //선택한 할일카드 조회
@@ -60,56 +76,46 @@ public class ScheduleService {
     }
 
     //선택한 할일카드 수정
-    //상황에 따라 본인 할일 카드가 아니면 String을 본인 할일카드 수정된 내용을 반환해야해서 ResponseEntity에 타입을 주지 않고 사용
     @Transactional
     public ResponseEntity<?> updateSchedule(Long scheduleId,
                                             HttpServletRequest httpServletRequest,
                                             UpdateScheduleRequestDto updateScheduleRequestDto,
                                             UserDetailsImpl userDetails) {
         //토큰 유효성 검사
-        //토큰을 검중해서 토큰이 유효하지 않을 경우 String과 http 400code를 반환
-        if (!jwtUtil.validateToken(jwtUtil.getJwtFromHeader(httpServletRequest))) {
-            return new ResponseEntity<>("유효하지않은 토큰입니다", HttpStatusCode.valueOf(400));
+        userTokenCheck(httpServletRequest);
+        //작성자 본인인지 확인
+        findMySchedule(scheduleId, userDetails);
+        //에러가 있는지 확인
+        if (result.isEmpty()) {
+            //해당 할일카드를 찾아서 업데이트 후 controller 리턴
+            Schedule schedule = findSchedule(scheduleId);
+            schedule.update(updateScheduleRequestDto);
+            UpdateScheduleResponseDto updateScheduleResponseDto = new UpdateScheduleResponseDto(schedule);
+            return new ResponseEntity<>(updateScheduleResponseDto, HttpStatusCode.valueOf(200));
+        } else {
+            //result에 있는 에러중 첫번째로 뜬 에러로 반환 후 result 비움, controller로 리턴
+            ResponseEntity<?> response = new ResponseEntity<>(result.get(0), HttpStatusCode.valueOf(400));
+            result.clear();
+            return response;
         }
-
-        // 로그인한 사용자와 작성한 사용자 비교해서 본인 할일카드인지 확인
-        //본인 할일카드가 아닐 경우 String과 http 400code를 반환
-        if (!findMySchedule(scheduleId, userDetails)) {
-            return new ResponseEntity<>("작성자만 삭제/수정할 수 있습니다.", HttpStatusCode.valueOf(400));
-        }
-
-        // 본인 할일카드 + 윺효성이 검증되면 받아온 id로 해당 할일카드를 찾음
-        Schedule schedule = findSchedule(scheduleId);
-        // 만들어논 update 메소드를 이용해서 해당 할일카드 업데이트
-        schedule.update(updateScheduleRequestDto);
-        //Choice..Dtd(반환값 title,body,username,createAt)에 수정내용 전달
-        UpdateScheduleResponseDto updateScheduleResponseDto = new UpdateScheduleResponseDto(schedule);
-        // controller로 ResponseEntity에 Dto와 code를 같이 담아서 전달
-        return new ResponseEntity<>(updateScheduleResponseDto, HttpStatusCode.valueOf(200));
     }
 
     //선택한 할일카드 완료 처리
     @Transactional
     public void clearSchedule(Long scheduleId, HttpServletRequest httpServletRequest, UserDetailsImpl userDetails) {
         //토큰 유효성 검사
-        //토큰을 검중해서 토큰이 유효한지 확인
-        if (jwtUtil.validateToken(jwtUtil.getJwtFromHeader(httpServletRequest))) {
-            // 로그인한 사용자와 작성한 사용자 비교해서 본인 할일카드인지 확인
-            if (findMySchedule(scheduleId, userDetails)) {
-                Schedule schedule = findSchedule(scheduleId);
-                schedule.setClearYn(true);
-            }
+        userTokenCheck(httpServletRequest);
+        //작성자 본인인지 확인
+        findMySchedule(scheduleId, userDetails);
+        //에러가 있는지 확인
+        if (result.isEmpty()) {
+            //할일 카드 찾아서 완료여부 Y로 변경
+            Schedule schedule = findSchedule(scheduleId);
+            schedule.setClearYn(true);
         }
+        result.clear();
     }
 
-
-    //입력받은 id 값으로 해당하는 작성자 찾기
-    private User findUser(Long scheduleId) {
-        //입력 받은 id 값에 해당되는 할일카드를 생성한 Schedule Entity에 입력
-        //해당하는 Entity 없으면 Exception 발생
-        Schedule schedule = findSchedule(scheduleId);
-        return schedule.getUser();
-    }
 
     //입력받은 id 값으로 해당하는 할일카드 찾기
     private Schedule findSchedule(Long scheduleId) {
@@ -119,13 +125,31 @@ public class ScheduleService {
                 new IllegalArgumentException("해당 할일카드는 등록되어있지 않습니다."));
     }
 
-    //입력받은 id 값으로 해당하는 글의 작성자인지 확인
-    private boolean findMySchedule(Long scheduleId, UserDetailsImpl userDetails) {
+
+    //입력받은 id 값으로 해당하는 글의 작성자인지 확인 (userScheduleCheck에 포함되어있음)
+    private void findMySchedule(Long scheduleId, UserDetailsImpl userDetails) {
         String loginUsername = userDetails.getUser().getUsername();
         String loginPassword = userDetails.getUser().getPassword();
         String scheduleUsername = findUser(scheduleId).getUsername();
         String schedulePassword = findUser(scheduleId).getPassword();
-        return loginUsername.equals(scheduleUsername) && loginPassword.equals(schedulePassword);
+        if (!(loginUsername.equals(scheduleUsername) && loginPassword.equals(schedulePassword))) {
+            result.add(Code.FAIL_405.getStatusCode());
+        }
+    }
+
+    //입력받은 id 값으로 해당하는 작성자 찾기 (isMySchedule 포함되어있음)
+    private User findUser(Long scheduleId) {
+        //입력 받은 id 값에 해당되는 할일카드를 생성한 Schedule Entity에 입력
+        //해당하는 Entity 없으면 Exception 발생
+        Schedule schedule = findSchedule(scheduleId);
+        return schedule.getUser();
+    }
+
+    //토큰 유효성 검사
+    private void userTokenCheck(HttpServletRequest httpServletRequest) {
+        if (!jwtUtil.validateToken(jwtUtil.getJwtFromHeader(httpServletRequest))) {
+            result.add(Code.FAIL_404.getStatusCode());
+        }
     }
 }
 
