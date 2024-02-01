@@ -1,8 +1,10 @@
 package org.example.schedule.service;
 
 import org.example.schedule.dto.UserRequestDto;
+import org.example.schedule.entity.Code;
 import org.example.schedule.entity.User;
 import org.example.schedule.repository.UserRepository;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -28,12 +30,12 @@ public class UserService {
         //중복사용자 확인
         Optional<User> usernameCheck = userRepository.findByUsername(username);
         if (usernameCheck.isPresent()){
-            return ResponseEntity.status(400).body("중복된 username 입니다.");
+            return ResponseEntity.status(400).body(Code.FAIL_401.getStatusComment());
         }
         //유저추가
         User user = new User(username, password);
         userRepository.save(user);
-        return ResponseEntity.status(200).body("사용자가 생성되었습니다.");
+        return ResponseEntity.status(200).body(Code.SUCCESS_200.getStatusComment());
     }
 
 //    public ResponseEntity<String> loginUser(UserRequestDto userRequestDto) {

@@ -62,7 +62,7 @@ public class ScheduleService {
                         .map(AllScheduleResponseDto::new).toList();
         //비어있으면 Exception 발생
         if (allScheduleResponseDtoList.isEmpty()) {
-            return new ResponseEntity<>(Code.FAIL_403.getStatusCode(), HttpStatusCode.valueOf(400));
+            return new ResponseEntity<>(Code.FAIL_403.getStatusComment(), HttpStatusCode.valueOf(400));
         }
         return new ResponseEntity<>(allScheduleResponseDtoList, HttpStatusCode.valueOf(200));
     }
@@ -133,7 +133,7 @@ public class ScheduleService {
         String scheduleUsername = findUser(scheduleId).getUsername();
         String schedulePassword = findUser(scheduleId).getPassword();
         if (!(loginUsername.equals(scheduleUsername) && loginPassword.equals(schedulePassword))) {
-            result.add(Code.FAIL_405.getStatusCode());
+            result.add(Code.FAIL_405.getStatusComment());
         }
     }
 
@@ -148,7 +148,7 @@ public class ScheduleService {
     //토큰 유효성 검사
     private void userTokenCheck(HttpServletRequest httpServletRequest) {
         if (!jwtUtil.validateToken(jwtUtil.getJwtFromHeader(httpServletRequest))) {
-            result.add(Code.FAIL_404.getStatusCode());
+            result.add(Code.FAIL_404.getStatusComment());
         }
     }
 }

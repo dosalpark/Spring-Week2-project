@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.example.schedule.dto.UserRequestDto;
+import org.example.schedule.entity.Code;
 import org.example.schedule.jwt.JwtUtil;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -58,20 +59,21 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         // jwtUtil에 토큰생성 메소드 통해서 생성
         String token = jwtUtil.createToken(username);
         //헤더의 키값과 토큰을 reponse로 전달
-        ResponseEntity<String> entity =
-                new ResponseEntity<String>("로그인 되었습니다.", HttpStatusCode.valueOf(200));
+        ResponseEntity<?> entity =
+                new ResponseEntity<>(Code.SUCCESS_201, HttpStatusCode.valueOf(200));
         response.setStatus(entity.getStatusCode().value());
-        response.getWriter().write(entity.getBody());
+        response.getWriter().write(Code.SUCCESS_201.getStatusComment());
+//                write(entity.getStatusCode());
         response.addHeader(JwtUtil.AUTHORIZATION_HEADER, token);
     }
 
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
         //에러 코드를 리턴
-        ResponseEntity<String> entity =
-                new ResponseEntity<String>("회원을 찾을 수 없습니다.", HttpStatusCode.valueOf(400));
+        ResponseEntity<?> entity =
+                new ResponseEntity<>(Code.FAIL_401,HttpStatusCode.valueOf(400));
         response.setStatus(entity.getStatusCode().value());
-        response.getWriter().write(entity.getBody());
+        response.getWriter().write(Code.FAIL_401.getStatusComment());
         log.error(String.valueOf(response.getStatus()));
     }
 }

@@ -17,10 +17,10 @@ public enum Code {
     FAIL_407("해당 댓글은 등록되어있지 않습니다.");
 
 
-    private final String statusCode;
+    private final String statusComment;
 
     private Code(String statusCode) {
-        this.statusCode = statusCode;
+        this.statusComment = getStatusComment();
 
     }
 
