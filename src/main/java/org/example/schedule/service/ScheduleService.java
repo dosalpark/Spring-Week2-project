@@ -116,7 +116,7 @@ public class ScheduleService {
         //입력 받은 id 값에 해당되는 할일카드를 생성한 Schedule Entity에 입력
         //해당하는 Entity 없으면 Exception 발생
         return scheduleRepository.findById(scheduleId).orElseThrow(() ->
-                new IllegalArgumentException("해당 할일카드는 등록되어있지 않습니다."));
+                new IllegalArgumentException("해당 스케쥴은 등록되어있지 않습니다."));
     }
 
     //입력받은 id 값으로 해당하는 글의 작성자인지 확인
