@@ -1,6 +1,5 @@
 package org.example.schedule.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.example.schedule.dto.AddCommentRequestDto;
 import org.example.schedule.dto.UpdateCommentRequestDto;
 import org.example.schedule.security.UserDetailsImpl;
@@ -21,30 +20,27 @@ public class CommentController {
     //댓글 작성
     @PostMapping
     public ResponseEntity<?> createComment(@PathVariable Long scheduleId,
-                                           HttpServletRequest httpServletRequest,
                                            @RequestBody AddCommentRequestDto addCommentRequestDto,
-                                           @AuthenticationPrincipal UserDetailsImpl userDetails){
-        return commentService.createComment(scheduleId, httpServletRequest, addCommentRequestDto, userDetails);
+                                           @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return commentService.createComment(scheduleId, addCommentRequestDto, userDetails);
     }
 
     //댓글 수정
     @PostMapping("/{commentId}")
     public ResponseEntity<?> updateComment(@PathVariable Long scheduleId,
                                            @PathVariable Long commentId,
-                                           HttpServletRequest httpServletRequest,
                                            @RequestBody UpdateCommentRequestDto updateCommentRequestDto,
-                                           @AuthenticationPrincipal UserDetailsImpl userDetails){
-        return commentService.updateComment(scheduleId, commentId, httpServletRequest, updateCommentRequestDto, userDetails);
+                                           @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return commentService.updateComment(scheduleId, commentId, updateCommentRequestDto, userDetails);
     }
 
 
     //댓글 삭제
     @DeleteMapping("/{commentId}")
     public ResponseEntity<?> deleteComment(@PathVariable Long scheduleId,
-                                                @PathVariable Long commentId,
-                                                HttpServletRequest httpServletRequest,
-                                                @AuthenticationPrincipal UserDetailsImpl userDetails){
-        return commentService.deleteComment(scheduleId, commentId, httpServletRequest, userDetails);
+                                           @PathVariable Long commentId,
+                                           @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return commentService.deleteComment(scheduleId, commentId, userDetails);
     }
 
 }

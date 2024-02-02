@@ -1,13 +1,11 @@
 package org.example.schedule.service;
 
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.example.schedule.dto.*;
 import org.example.schedule.entity.Code;
 import org.example.schedule.entity.Schedule;
 import org.example.schedule.entity.User;
-import org.example.schedule.jwt.JwtUtil;
 import org.example.schedule.repository.ScheduleRepository;
 import org.example.schedule.security.UserDetailsImpl;
 import org.springframework.http.HttpStatusCode;
@@ -23,35 +21,23 @@ import java.util.List;
 public class ScheduleService {
     //공통으로 사용 할 Repository 필드 선언 및 생성자 생성
     private final ScheduleRepository scheduleRepository;
-    private final JwtUtil jwtUtil;
     //에러코드담기
     private final List<String> result = new ArrayList<>();
+    private Code c1;
 
 
-    public ScheduleService(ScheduleRepository scheduleRepository, JwtUtil jwtUtil) {
+    public ScheduleService(ScheduleRepository scheduleRepository) {
         this.scheduleRepository = scheduleRepository;
-        this.jwtUtil = jwtUtil;
     }
 
     //할일카드 등록
-    public ResponseEntity<?> createSchedule(HttpServletRequest httpServletRequest,
-                                            AddScheduleRequestDto addScheduleRequestDto,
+    public ResponseEntity<?> createSchedule(AddScheduleRequestDto addScheduleRequestDto,
                                             UserDetailsImpl userDetails) {
-        //토큰 유효성 검사
-//        userTokenCheck(httpServletRequest);
-        //에러 여부 검사
-        if (result.isEmpty()) {
-            //새로운 Schedule Entity에 user 정보까지 같이담아서 repo에 저장
-            Schedule addSchedule = scheduleRepository.save(new Schedule(addScheduleRequestDto, userDetails.getUser()));
-            //생성한 할일카드를 AddScheduleResponseDto에 유저정보와 같이 담음
-            AddScheduleResponseDto addScheduleResponseDto = new AddScheduleResponseDto(addSchedule, userDetails.getUser());
-            return new ResponseEntity<>(addScheduleResponseDto, HttpStatusCode.valueOf(200));
-        } else {
-            //첫번째 에러사항이랑 HTTP 400코드 리턴
-            ResponseEntity<?> response = new ResponseEntity<>(result.get(0), HttpStatusCode.valueOf(400));
-            result.clear();
-            return response;
-        }
+        //새로운 Schedule Entity에 user 정보까지 같이담아서 repo에 저장
+        Schedule addSchedule = scheduleRepository.save(new Schedule(addScheduleRequestDto, userDetails.getUser()));
+        //생성한 할일카드를 AddScheduleResponseDto에 유저정보와 같이 담음
+        return new ResponseEntity<>(new AddScheduleResponseDto(addSchedule, userDetails.getUser()), HttpStatusCode.valueOf(200));
+
     }
 
     //모든 할일카드 조회
@@ -62,50 +48,39 @@ public class ScheduleService {
                         .map(AllScheduleResponseDto::new).toList();
         //비어있으면 Exception 발생
         if (allScheduleResponseDtoList.isEmpty()) {
-            return new ResponseEntity<>(Code.FAIL_403.getStatusComment(), HttpStatusCode.valueOf(400));
+            c1 = Code.FAIL_403;
+            return new ResponseEntity<>(c1.getStatusComment(), HttpStatusCode.valueOf(400));
         }
         return new ResponseEntity<>(allScheduleResponseDtoList, HttpStatusCode.valueOf(200));
     }
 
     //선택한 할일카드 조회
-    public ChoiceScheduleResponseDto getChoiceSchedule(Long id) {
+    public ResponseEntity<?> getChoiceSchedule(Long scheduleId) {
         //입력 받은 id 값으로 Schedule Entity 생성
-        Schedule schedule = findSchedule(id);
-        //생성한 할일카드를 Controller로 전달
-        return new ChoiceScheduleResponseDto(schedule);
+        Schedule schedule = findSchedule(scheduleId);// 할일카드 가져오면서 검증하기
+        return new ResponseEntity<>(new ChoiceScheduleResponseDto(schedule), HttpStatusCode.valueOf(200));
     }
 
     //선택한 할일카드 수정
     @Transactional
     public ResponseEntity<?> updateSchedule(Long scheduleId,
-                                            HttpServletRequest httpServletRequest,
                                             UpdateScheduleRequestDto updateScheduleRequestDto,
                                             UserDetailsImpl userDetails) {
-        //토큰 유효성 검사
-//        userTokenCheck(httpServletRequest);
-        //작성자 본인인지 확인
-        findMySchedule(scheduleId, userDetails);
+        findMySchedule(scheduleId, userDetails); //작성자 본인인지 확인
+        Schedule schedule = findSchedule(scheduleId);// 할일카드 가져오면서 검증하기
         //에러가 있는지 확인
         if (result.isEmpty()) {
             //해당 할일카드를 찾아서 업데이트 후 controller 리턴
-            Schedule schedule = findSchedule(scheduleId);
             schedule.update(updateScheduleRequestDto);
-            UpdateScheduleResponseDto updateScheduleResponseDto = new UpdateScheduleResponseDto(schedule);
-            return new ResponseEntity<>(updateScheduleResponseDto, HttpStatusCode.valueOf(200));
+            return new ResponseEntity<>(new UpdateScheduleResponseDto(schedule), HttpStatusCode.valueOf(200));
         } else {
-            //result에 있는 에러중 첫번째로 뜬 에러로 반환 후 result 비움, controller로 리턴
-            System.out.println("result.get(0) = " + result.get(0));
-            ResponseEntity<?> response = new ResponseEntity<>(result.get(0), HttpStatusCode.valueOf(400));
-            result.clear();
-            return response;
+            return errorEntityReturnController();
         }
     }
 
     //선택한 할일카드 완료 처리
     @Transactional
-    public void clearSchedule(Long scheduleId, HttpServletRequest httpServletRequest, UserDetailsImpl userDetails) {
-        //토큰 유효성 검사
-//        userTokenCheck(httpServletRequest);
+    public void clearSchedule(Long scheduleId, UserDetailsImpl userDetails) {
         //작성자 본인인지 확인
         findMySchedule(scheduleId, userDetails);
         //에러가 있는지 확인
@@ -118,12 +93,11 @@ public class ScheduleService {
     }
 
 
-    //입력받은 id 값으로 해당하는 할일카드 찾기
+    //입력받은 scheduleId 값으로 해당하는 할일카드 찾기
     private Schedule findSchedule(Long scheduleId) {
-        //입력 받은 id 값에 해당되는 할일카드를 생성한 Schedule Entity에 입력
-        //해당하는 Entity 없으면 Exception 발생
+        //입력 받은 id 값에 해당되는 댓글을 생성한 Comment Entity에 입력
         return scheduleRepository.findById(scheduleId).orElseThrow(() ->
-                new IllegalArgumentException("해당 할일카드는 등록되어있지 않습니다."));
+                new NullPointerException("해당하는 할일카드가 없습니다."));
     }
 
 
@@ -134,9 +108,9 @@ public class ScheduleService {
         String scheduleUsername = findUser(scheduleId).getUsername();
         String schedulePassword = findUser(scheduleId).getPassword();
         if (!(loginUsername.equals(scheduleUsername) && loginPassword.equals(schedulePassword))) {
-            result.add(String.valueOf(Code.FAIL_405.getStatusComment()));
-            result.add("ㅁㄴㅇㅁㄴㅇ");
-            System.out.println("Code.FAIL_405.getStatusComment() = " + Code.FAIL_405.getStatusComment());
+            c1 = Code.FAIL_405;
+            result.add(c1.getStatusComment());
+
         }
     }
 
@@ -148,11 +122,11 @@ public class ScheduleService {
         return schedule.getUser();
     }
 
-//    //토큰 유효성 검사
-//    private void userTokenCheck(HttpServletRequest httpServletRequest) {
-//        if (!jwtUtil.validateToken(jwtUtil.getJwtFromHeader(httpServletRequest))) {
-//            result.add(Code.FAIL_404.getStatusComment());
-//        }
-//    }
+    //에러 발생시 첫번째 result가지고 HTTP 상태코드와 맞는 String 전달
+    private ResponseEntity<?> errorEntityReturnController() {
+        ResponseEntity<?> response = new ResponseEntity<>(result.get(0), HttpStatusCode.valueOf(400));
+        result.clear();
+        return response;
+    }
 }
 

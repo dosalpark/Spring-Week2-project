@@ -1,5 +1,5 @@
 package org.example.schedule.jwt;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
@@ -8,12 +8,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.example.schedule.entity.Code;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-import org.springframework.web.ErrorResponse;
 
 import java.io.IOException;
 import java.security.Key;
@@ -29,7 +26,8 @@ public class JwtUtil {
     public static final String BEARER_PREFIX = "Bearer ";
     // 토큰 만료시간
     private final long TOKEN_TIME = 60 * 60 * 100000000000L; // 60분
-//    private final long TOKEN_TIME = 60 * 60 * 100000L; // 60분
+    //    private final long TOKEN_TIME = 60 * 60 * 100000L; // 60분
+    private Code c1;
 
     @Value("${jwt.secret.key}") // Base64 Encode 한 SecretKey
     private String secretKey;
@@ -92,12 +90,10 @@ public class JwtUtil {
     }
 
     //토큰 에러시 진행
-    private void tokenErrorException (HttpServletResponse response) throws IOException {
-        //확인필요
-//        response.getWriter().write(Code.FAIL_404.getStatusComment());
-//        System.out.println("Code.FAIL_404.getStatusComment() = " + Code.FAIL_404.getStatusComment());
+    private void tokenErrorException(HttpServletResponse response) throws IOException {
+        c1 = Code.FAIL_404;
         //전달할 메세지
-        response.getWriter().write("유효하지 않은 토큰입니다.");
+        response.getWriter().write(c1.getStatusComment());
         //전달할 HTTP 상태코드 (httpstatus가 eunm을 사용해서 해당하는 value() 를 붙혀야함)
         response.setStatus(HttpStatusCode.valueOf(400).value());
 

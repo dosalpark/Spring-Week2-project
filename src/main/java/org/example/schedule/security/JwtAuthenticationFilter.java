@@ -17,11 +17,14 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.io.IOException;
+import java.util.Objects;
+
 
 @Slf4j(topic = "JWT 생성 및 로그인")
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     //JWT 생성하기위해서 JwtUtil 주입
     private final JwtUtil jwtUtil;
+    private Code c1;
 
     public JwtAuthenticationFilter(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
@@ -59,21 +62,24 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         // jwtUtil에 토큰생성 메소드 통해서 생성
         String token = jwtUtil.createToken(username);
         //헤더의 키값과 토큰을 reponse로 전달
+        //Code enum 사용
+        c1 = Code.SUCCESS_201;
         ResponseEntity<?> entity =
-                new ResponseEntity<>(Code.SUCCESS_201, HttpStatusCode.valueOf(200));
+                new ResponseEntity<>(c1, HttpStatusCode.valueOf(200));
         response.setStatus(entity.getStatusCode().value());
-        response.getWriter().write(Code.SUCCESS_201.getStatusComment());
-//                write(entity.getStatusCode());
+        response.getWriter().write(c1.getStatusComment());
         response.addHeader(JwtUtil.AUTHORIZATION_HEADER, token);
     }
 
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
         //에러 코드를 리턴
+        //Code enum 사용
+        c1 = Code.FAIL_401;
         ResponseEntity<?> entity =
-                new ResponseEntity<>(Code.FAIL_401,HttpStatusCode.valueOf(400));
+                new ResponseEntity<>(c1,HttpStatusCode.valueOf(400));
         response.setStatus(entity.getStatusCode().value());
-        response.getWriter().write(Code.FAIL_401.getStatusComment());
+        response.getWriter().write(c1.getStatusComment());
         log.error(String.valueOf(response.getStatus()));
     }
 }

@@ -4,7 +4,6 @@ import org.example.schedule.dto.UserRequestDto;
 import org.example.schedule.entity.Code;
 import org.example.schedule.entity.User;
 import org.example.schedule.repository.UserRepository;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,8 +15,9 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private Code c1;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder){
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -29,12 +29,16 @@ public class UserService {
 
         //중복사용자 확인
         Optional<User> usernameCheck = userRepository.findByUsername(username);
-        if (usernameCheck.isPresent()){
-            return ResponseEntity.status(400).body(Code.FAIL_401.getStatusComment());
+        if (usernameCheck.isPresent()) {
+            //
+            c1 = Code.FAIL_400;
+            return ResponseEntity.status(400).body(c1.getStatusComment());
+
         }
         //유저추가
         User user = new User(username, password);
         userRepository.save(user);
+        c1 = Code.SUCCESS_200;
         return ResponseEntity.status(200).body(Code.SUCCESS_200.getStatusComment());
     }
 

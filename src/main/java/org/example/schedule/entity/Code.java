@@ -19,9 +19,7 @@ public enum Code {
 
     private final String statusComment;
 
-    private Code(String statusComment) {
-        this.statusComment = getStatusComment();
-
+    Code(String statusComment) {
+        this.statusComment = statusComment;
     }
-
 }
