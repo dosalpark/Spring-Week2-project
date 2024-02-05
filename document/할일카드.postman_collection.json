@@ -1,0 +1,303 @@
+{
+	"info": {
+		"_postman_id": "bd9d6d67-77b3-4dc7-aecd-d58a2b393e21",
+		"name": "할일카드",
+		"description": "JWT를 이용한 회원가입과 로그인\n\n로그인한 회원의 할일카드 작성 및 수정, 완료처리\n\n할일카드에 대한 댓글 작성, 수정, 삭제",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "32382229"
+	},
+	"item": [
+		{
+			"name": "회원관리",
+			"item": [
+				{
+					"name": "회원 로그인",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"parkdosal\",\r\n    \"password\" : \"sparta123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/user/login"
+					},
+					"response": []
+				},
+				{
+					"name": "회원가입",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"parkdosal\",\r\n    \"password\" : \"sparta123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/user/signup"
+					},
+					"response": []
+				}
+			],
+			"description": "회원가입과 로그인 처리를 하는 API 입니다."
+		},
+		{
+			"name": "할일카드 관리",
+			"item": [
+				{
+					"name": "할일카드 등록",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Dosal",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYXJrZG9zYWwiLCJleHAiOjM2MDAwMTcwNjc2ODkwNiwiaWF0IjoxNzA2NzY4OTA2fQ.iR-Igdtc0jRqIEwUCvwA6ZFZ9gpIa2IXD3V6lOJMoZA",
+								"description": "JWT token (parkdosal)",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Dosal",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkb3NhbCIsImV4cCI6MzYwMDAxNzA2NzY5MDI4LCJpYXQiOjE3MDY3NjkwMjh9.Cvf7SwV3MOBOTnAzOPV4FJxvaFLx1VkBNLgEf9Ih1Go",
+								"description": "JWT token (dosal)",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{  \r\n\"titleSchedule\": \"dosal 테스트5\",  \r\n\"bodySchedule\" : \"dosal body\" \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/schedule"
+					},
+					"response": []
+				},
+				{
+					"name": "모든 할일카드 조회",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Dosal",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYXJrZG9zYWwiLCJleHAiOjM2MDAwMTcwNjc2ODkwNiwiaWF0IjoxNzA2NzY4OTA2fQ.iR-Igdtc0jRqIEwUCvwA6ZFZ9gpIa2IXD3V6lOJMoZA",
+								"description": "JWT token (parkdosal)",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Dosal",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkb3NhbCIsImV4cCI6MzYwMDAxNzA2NzY5MDI4LCJpYXQiOjE3MDY3NjkwMjh9.Cvf7SwV3MOBOTnAzOPV4FJxvaFLx1VkBNLgEf9Ih1Go",
+								"description": "JWT token (dosal)",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/schedule"
+					},
+					"response": []
+				},
+				{
+					"name": "선택한 할일카드 조회",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Dosal",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYXJrZG9zYWwiLCJleHAiOjM2MDAwMTcwNjc2ODkwNiwiaWF0IjoxNzA2NzY4OTA2fQ.iR-Igdtc0jRqIEwUCvwA6ZFZ9gpIa2IXD3V6lOJMoZA",
+								"description": "JWT token (parkdosal)",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Dosal",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkb3NhbCIsImV4cCI6MzYwMDAxNzA2NzY5MDI4LCJpYXQiOjE3MDY3NjkwMjh9.Cvf7SwV3MOBOTnAzOPV4FJxvaFLx1VkBNLgEf9Ih1Go",
+								"description": "JWT token (dosal)",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Dosal",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYXJrZG9zYWwiLCJleHAiOjM2MDAwMTcwNjc2ODkwNiwiaWF0IjoxIgdtc0jRqIEwUCvwA6ZFZ9gpIa2IXD3V6lOJMoZA",
+								"description": "토큰테스트 ",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:8080/api/schedule/10"
+					},
+					"response": []
+				},
+				{
+					"name": "선택한 할일카드 수정",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Dosal",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYXJrZG9zYWwiLCJleHAiOjM2MDAwMTcwNjc2ODkwNiwiaWF0IjoxNzA2NzY4OTA2fQ.iR-Igdtc0jRqIEwUCvwA6ZFZ9gpIa2IXD3V6lOJMoZA",
+								"description": "JWT token (parkdosal)",
+								"type": "text"
+							},
+							{
+								"key": "Dosal",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkb3NhbCIsImV4cCI6MzYwMDAxNzA2NzY5MDI4LCJpYXQiOjE3MDY3NjkwMjh9.Cvf7SwV3MOBOTnAzOPV4FJxvaFLx1VkBNLgEf9Ih1Go",
+								"description": "JWT token (dosal)",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{  \r\n\"titleSchedule\": \"pardosal 지키기\",  \r\n\"bodySchedule\" : \"pardosal 지키기 가능?\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/schedule/13"
+					},
+					"response": []
+				},
+				{
+					"name": "선택한 할일카드 완료처리",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Dosal",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYXJrZG9zYWwiLCJleHAiOjM2MDAwMTcwNjc2ODkwNiwiaWF0IjoxNzA2NzY4OTA2fQ.iR-Igdtc0jRqIEwUCvwA6ZFZ9gpIa2IXD3V6lOJMoZA",
+								"description": "JWT token (parkdosal)",
+								"type": "text"
+							},
+							{
+								"key": "Dosal",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkb3NhbCIsImV4cCI6MzYwMDAxNzA2NzY5MDI4LCJpYXQiOjE3MDY3NjkwMjh9.Cvf7SwV3MOBOTnAzOPV4FJxvaFLx1VkBNLgEf9Ih1Go",
+								"description": "JWT token (dosal)",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": "http://localhost:8080/api/schedule/13/clear"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "댓글 관리",
+			"item": [
+				{
+					"name": "댓글 추가",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Dosal",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYXJrZG9zYWwiLCJleHAiOjM2MDAwMTcwNjc2ODkwNiwiaWF0IjoxNzA2NzY4OTA2fQ.iR-Igdtc0jRqIEwUCvwA6ZFZ9gpIa2IXD3V6lOJMoZA",
+								"description": "JWT token (parkdosal)",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Dosal",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkb3NhbCIsImV4cCI6MzYwMDAxNzA2NzY5MDI4LCJpYXQiOjE3MDY3NjkwMjh9.Cvf7SwV3MOBOTnAzOPV4FJxvaFLx1VkBNLgEf9Ih1Go",
+								"description": "JWT token (dosal)",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n      \"bodyComment\": \"게시글주인:parkdosal, 댓글주인: parkdosal 댓글테스트\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/schedule/13/comment"
+					},
+					"response": []
+				},
+				{
+					"name": "댓글 수정",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Dosal",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYXJrZG9zYWwiLCJleHAiOjM2MDAwMTcwNjc2ODkwNiwiaWF0IjoxNzA2NzY4OTA2fQ.iR-Igdtc0jRqIEwUCvwA6ZFZ9gpIa2IXD3V6lOJMoZA",
+								"description": "JWT token (parkdosal)",
+								"type": "text"
+							},
+							{
+								"key": "Dosal",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkb3NhbCIsImV4cCI6MzYwMDAxNzA2NzY5MDI4LCJpYXQiOjE3MDY3NjkwMjh9.Cvf7SwV3MOBOTnAzOPV4FJxvaFLx1VkBNLgEf9Ih1Go",
+								"description": "JWT token (dosal)",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n      \"bodyComment\": \"게시글주인:parkdosal, 댓글주인: parkdosal 댓글테스트 / 지키기\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/schedule/13/comment/3"
+					},
+					"response": []
+				},
+				{
+					"name": "댓글 삭제",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Dosal",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYXJrZG9zYWwiLCJleHAiOjM2MDAwMTcwNjc2ODkwNiwiaWF0IjoxNzA2NzY4OTA2fQ.iR-Igdtc0jRqIEwUCvwA6ZFZ9gpIa2IXD3V6lOJMoZA",
+								"description": "JWT token (parkdosal)",
+								"type": "text"
+							},
+							{
+								"key": "Dosal",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkb3NhbCIsImV4cCI6MzYwMDAxNzA2NzY5MDI4LCJpYXQiOjE3MDY3NjkwMjh9.Cvf7SwV3MOBOTnAzOPV4FJxvaFLx1VkBNLgEf9Ih1Go",
+								"description": "JWT token (dosal)",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": "http://localhost:8080/api/schedule/13/comment/3"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
